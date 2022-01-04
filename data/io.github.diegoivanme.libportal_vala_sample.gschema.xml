@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="libportal-vala-sample">
+	<schema id="io.github.diegoivanme.libportal_vala_sample" path="/io/github/diegoivanme/libportal_vala_sample/">
+	</schema>
+</schemalist>

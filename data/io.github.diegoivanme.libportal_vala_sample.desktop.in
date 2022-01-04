@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=libportal-vala-sample
+Exec=libportal-vala-sample
+Icon=io.github.diegoivanme.libportal_vala_sample
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
