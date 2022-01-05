@@ -11,6 +11,10 @@ namespace XdpVala {
         public Xdp.Portal portal { get; construct set; }
         public Gtk.Window parent_window { get; construct set; }
 
+        construct {
+            vexpand = true;
+        }
+
         public abstract void build_ui ();
     }
 }

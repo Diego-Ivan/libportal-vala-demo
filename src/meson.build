@@ -6,6 +6,7 @@ libportal_vala_sample_code_sources = files (
   'Widgets/Window.vala',
   'Widgets/Page.vala',
   'Widgets/Pages/Account.vala',
+  'Widgets/Pages/Background.vala',
 )
 
 libportal_vala_sample_deps = [

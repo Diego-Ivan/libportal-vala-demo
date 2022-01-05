@@ -16,6 +16,7 @@ namespace XdpVala {
 		construct {
 		    var portal = new Xdp.Portal ();
 		    add_page (new Pages.Account (portal, this));
+		    add_page (new Pages.Background (portal, this));
 		}
 
 		private void add_page (Page page) {

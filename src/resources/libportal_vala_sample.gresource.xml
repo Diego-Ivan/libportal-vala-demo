@@ -3,6 +3,8 @@
   <gresource prefix="/io/github/diegoivanme/libportal_vala_sample">
     <file alias="window.ui" preprocess="xml-stripblanks">ui/window.ui</file>
     <file alias="Accounts.ui" preprocess="xml-stripblanks">ui/Accounts.ui</file>
+    <file alias="Background.ui" preprocess="xml-stripblanks">ui/Background.ui</file>
     <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/screen-privacy2-symbolic.svg</file>
   </gresource>
 </gresources>
