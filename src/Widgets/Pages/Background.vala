@@ -10,6 +10,7 @@ namespace XdpVala {
         private Gtk.Entry reason_entry;
         private Gtk.Switch autostart_switch;
         private Gtk.Button request_button;
+        private Gtk.Label result_label;
         public Background (Xdp.Portal portal_, Gtk.Window parent_win) {
             Object (
                 portal: portal_,
@@ -63,15 +64,29 @@ namespace XdpVala {
                 ((obj, res) => {
                     try {
                         bool? success;
+                        result_label.visible = true;
                         success = portal.request_background.end (res);
+
+                        if (success) {
+                            result_label.label = "Request succesful";
+                            result_label.add_css_class ("success");
+                        }
+                        else {
+                            result_label.label = "Request failed";
+                            result_label.add_css_class ("warning");
+                        }
 
                         if (success == null) {
                             critical ("Background portal cancelled");
+                            result_label.label = "Background portal cancelled";
+                            result_label.add_css_class ("warning");
                             return;
                         }
                     }
                     catch (Error e) {
                         critical (e.message);
+                        result_label.label = e.message;
+                        result_label.add_css_class ("error");
                     }
                 })
             );
@@ -86,6 +101,7 @@ namespace XdpVala {
                 reason_entry = builder.get_object ("reason_entry") as Gtk.Entry;
                 autostart_switch = builder.get_object ("autostart_switch") as Gtk.Switch;
                 request_button = builder.get_object ("request_button") as Gtk.Button;
+                result_label = builder.get_object ("result_label") as Gtk.Label;
             }
             catch (Error e) {
                 critical ("Error loading UI file: %s", e.message);
