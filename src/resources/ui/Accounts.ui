@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwStatusPage" id="main_widget">
+    <property name="icon-name">person2-symbolic</property>
+    <property name="description">Get user information</property>
+
+    <property name="child">
+      <object class="AdwClamp">
+        <property name="child">
+
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">7</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Reason</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="reason_entry">
+                        <property name="valign">center</property>
+                        <property name="hexpand">true</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="request_button">
+                <property name="label">Request</property>
+                <property name="halign">start</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkBox" id="results_box">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">12</property>
+                <property name="visible">false</property>
+
+                <child>
+                  <object class="GtkImage" id="avatar">
+                    <property name="pixel-size">100</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="hexpand">true</property>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">Name</property>
+                        <child type="suffix">
+                          <object class="GtkLabel" id="name_label">
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">ID</property>
+                        <child type="suffix">
+                          <object class="GtkLabel" id="id_label">
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

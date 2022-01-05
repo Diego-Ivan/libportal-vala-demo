@@ -59,22 +59,7 @@
             <child>
               <object class="GtkStack" id="main_stack">
                 <property name="transition-type">crossfade</property>
-                <child>
-                  <object class="GtkStackPage">
-                    <property name="name">page1</property>
-                    <property name="title">Account</property>
-                    <property name="child">
-                      <object class="GtkLabel">
-                        <property name="label">This is an example</property>
-                        <property name="valign">center</property>
-                        <property name="vexpand">true</property>
-                        <style>
-                          <class name="large-title"/>
-                        </style>
-                      </object>
-                    </property>
-                  </object>
-                </child>
+
               </object>
             </child>
           </object>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/io/github/diegoivanme/libportal_vala_sample">
+    <file alias="window.ui" preprocess="xml-stripblanks">ui/window.ui</file>
+    <file alias="Accounts.ui" preprocess="xml-stripblanks">ui/Accounts.ui</file>
+    <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
+  </gresource>
+</gresources>

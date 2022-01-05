@@ -1,13 +1,18 @@
-libportal_vala_sample_sources = [
+subdir('resources')
+
+libportal_vala_sample_code_sources = files (
   'main.vala',
   'Application.vala',
   'Widgets/Window.vala',
- ]
+  'Widgets/Page.vala',
+  'Widgets/Pages/Account.vala',
+)
 
 libportal_vala_sample_deps = [
   dependency('gtk4'),
   dependency('libadwaita-1'),
   dependency('libportal'),
+  dependency('libportal-gtk4'),
 ]
 
 conf = configuration_data()
@@ -22,16 +27,19 @@ add_project_arguments(
     language: 'c'
 )
 
-gnome = import('gnome')
-
-libportal_vala_sample_sources += gnome.compile_resources('libportal_vala_sample-resources',
-  'libportal_vala_sample.gresource.xml',
-  c_name: 'libportal_vala_sample'
-)
+libportal_vala_sample_sources = [
+  libportal_vala_sample_code_sources,
+  libportal_vala_sample_resources,
+]
 
 executable('libportal-vala-sample', libportal_vala_sample_sources,
+  include_directories: [
+    include_directories('.')
+  ],
   vala_args: [
+    '--gresources', libportal_vala_sample_resource_files,
     meson.project_source_root() + '/src/vapi/config.vapi',
+    '--vapidir', meson.current_source_dir(),
     '--target-glib=2.50',
   ],
   dependencies: libportal_vala_sample_deps,
