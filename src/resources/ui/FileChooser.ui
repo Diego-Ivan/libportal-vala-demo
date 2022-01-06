@@ -83,6 +83,50 @@
               </object>
             </child>
 
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">10</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title">Save a file</property>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">Dialog Title</property>
+                        <child type="suffix">
+                          <object class="GtkEntry" id="save_title_entry">
+                            <property name="valign">center</property>
+                            <property name="placeholder-text">Save a file</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">Text to write</property>
+                        <child type="suffix">
+                          <object class="GtkEntry" id="text_entry">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="save_button">
+                    <property name="label">Save</property>
+                    <property name="halign">start</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
 
           </object>
         </property>
