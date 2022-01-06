@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwStatusPage" id="main_widget">
+    <property name="title">Welcome to the Libportal Vala Demo</property>
+
+    <property name="child">
+
+      <object class="AdwClamp">
+        <property name="child">
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Sandbox Status</property>
+                <child type="suffix">
+                  <object class="GtkLabel" id="status_label">
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+
+  </object>
+</interface>

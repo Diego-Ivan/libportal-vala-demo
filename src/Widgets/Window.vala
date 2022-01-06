@@ -9,23 +9,29 @@ namespace XdpVala {
 	[GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/window.ui")]
 	public class Window : Adw.ApplicationWindow {
 	    [GtkChild] unowned Gtk.Stack main_stack;
+	    private Xdp.Portal portal;
+	    private Page[] pages;
+
 		public Window (Gtk.Application app) {
 			Object (application: app);
 		}
 
 		construct {
-		    var portal = new Xdp.Portal ();
-		    add_page (new Pages.Account (portal, this));
-		    add_page (new Pages.Background (portal, this));
-		}
+		    portal = new Xdp.Portal ();
 
-		private void add_page (Page page) {
-		    message (page.title.to_string ());
-		    main_stack.add_titled (
-		        page,
-		        page.title,
-		        page.title
-		    );
+		    pages = {
+		        new Pages.Welcome (portal, this),
+		        new Pages.Account (portal, this),
+		        new Pages.Background (portal, this),
+		    };
+
+		    foreach (var page in pages) {
+		        main_stack.add_titled (
+		            page,
+		            page.title,
+		            page.title
+		        );
+		    }
 		}
 	}
 }
