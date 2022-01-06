@@ -54,5 +54,8 @@ namespace XdpVala {
                 critical ("Error loading UI file: %s", e.message);
             }
         }
+
+        public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
+        }
     }
 }

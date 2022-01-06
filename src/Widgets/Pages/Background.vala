@@ -61,35 +61,37 @@ namespace XdpVala {
                 array,
                 flags,
                 null,
-                ((obj, res) => {
-                    try {
-                        bool? success;
-                        result_label.visible = true;
-                        success = portal.request_background.end (res);
-
-                        if (success) {
-                            result_label.label = "Request succesful";
-                            result_label.add_css_class ("success");
-                        }
-                        else {
-                            result_label.label = "Request failed";
-                            result_label.add_css_class ("warning");
-                        }
-
-                        if (success == null) {
-                            critical ("Background portal cancelled");
-                            result_label.label = "Background portal cancelled";
-                            result_label.add_css_class ("warning");
-                            return;
-                        }
-                    }
-                    catch (Error e) {
-                        critical (e.message);
-                        result_label.label = e.message;
-                        result_label.add_css_class ("error");
-                    }
-                })
+                callback
             );
+        }
+
+        public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
+            try {
+                bool? success;
+                result_label.visible = true;
+                success = portal.request_background.end (res);
+
+                if (success) {
+                    result_label.label = "Request succesful";
+                    result_label.add_css_class ("success");
+                }
+                else {
+                    result_label.label = "Request failed";
+                    result_label.add_css_class ("warning");
+                }
+
+                if (success == null) {
+                    critical ("Background portal cancelled");
+                    result_label.label = "Background portal cancelled";
+                    result_label.add_css_class ("warning");
+                    return;
+                }
+            }
+            catch (Error e) {
+                critical (e.message);
+                result_label.label = e.message;
+                result_label.add_css_class ("error");
+            }
         }
 
         public override void build_ui () {

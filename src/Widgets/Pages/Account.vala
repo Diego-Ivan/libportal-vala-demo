@@ -37,48 +37,50 @@ namespace XdpVala {
                 }
 
                 var parent = Xdp.parent_new_gtk (parent_window);
-                GLib.Variant info;
 
                 portal.get_user_information.begin (
                     parent,
                     reason_entry.text,
                     NONE,
                     null,
-                    ((obj, res) => {
-                        try {
-                            info = portal.get_user_information.end (res);
-                            if (info == null) {
-                                critical ("Account Portal Cancelled");
-                                return;
-                            }
-
-                           Variant name = info.lookup_value ("name", VariantType.STRING);
-                           Variant id = info.lookup_value ("id", VariantType.STRING);
-                           Variant uri = info.lookup_value ("image", VariantType.STRING);
-
-                           name_label.label = (string) name;
-                           id_label.label = (string) id;
-                           var path = (string) uri;
-
-                           if (path != "") {
-                                var file = GLib.Filename.from_uri (path);
-                                var pixbuf = new Gdk.Pixbuf.from_file_at_size (
-                                    file,
-                                    120,
-                                    120
-                                );
-                                avatar.set_from_pixbuf (pixbuf);
-                           }
-
-                           results_box.visible = true;
-                        }
-                        catch (Error e){
-                            results_box.visible = false;
-                            critical (e.message);
-                        }
-                    })
+                    callback
                 );
             });
+        }
+
+        public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
+            GLib.Variant info;
+            try {
+                info = portal.get_user_information.end (res);
+                if (info == null) {
+                    critical ("Account Portal Cancelled");
+                    return;
+                }
+
+               Variant name = info.lookup_value ("name", VariantType.STRING);
+               Variant id = info.lookup_value ("id", VariantType.STRING);
+               Variant uri = info.lookup_value ("image", VariantType.STRING);
+
+               name_label.label = (string) name;
+               id_label.label = (string) id;
+               var path = (string) uri;
+
+               if (path != "") {
+                    var file = GLib.Filename.from_uri (path);
+                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (
+                        file,
+                        120,
+                        120
+                    );
+                    avatar.set_from_pixbuf (pixbuf);
+               }
+
+               results_box.visible = true;
+            }
+            catch (Error e){
+                results_box.visible = false;
+                critical (e.message);
+            }
         }
 
         public override void build_ui () {

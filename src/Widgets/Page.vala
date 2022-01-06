@@ -16,5 +16,6 @@ namespace XdpVala {
         }
 
         public abstract void build_ui ();
+        public abstract void callback (GLib.Object? obj, AsyncResult res);
     }
 }

@@ -9,5 +9,8 @@ namespace XdpVala {
     public class Pages.FileChooser : Page {
         public override void build_ui () {
         }
+
+        public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
+        }
     }
 }
