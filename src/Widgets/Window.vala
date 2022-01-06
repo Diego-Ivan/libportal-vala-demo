@@ -23,6 +23,7 @@ namespace XdpVala {
 		        new Pages.Welcome (portal, this),
 		        new Pages.Account (portal, this),
 		        new Pages.Background (portal, this),
+		        new Pages.FileChooser (portal, this),
 		    };
 
 		    foreach (var page in pages) {

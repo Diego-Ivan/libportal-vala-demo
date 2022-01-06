@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="XdpValaWindow" parent="AdwApplicationWindow">
-    <property name="default-width">500</property>
-    <property name="default-height">600</property>
+    <property name="default-width">800</property>
+    <property name="default-height">576</property>
     <property name="title">Libportal Demo Vala</property>
 
     <child>
@@ -29,6 +29,7 @@
             <child>
               <object class="GtkStackSidebar">
                 <property name="stack">main_stack</property>
+                <property name="width-request">270</property>
                 <property name="vexpand">true</property>
               </object>
             </child>
