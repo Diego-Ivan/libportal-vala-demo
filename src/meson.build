@@ -3,12 +3,16 @@ subdir('resources')
 libportal_vala_sample_code_sources = files (
   'main.vala',
   'Application.vala',
+
+  'Widgets/AddressList.vala',
+  'Widgets/EmailRow.vala',
   'Widgets/Window.vala',
   'Widgets/Page.vala',
+
   'Widgets/Pages/Account.vala',
   'Widgets/Pages/Background.vala',
+  'Widgets/Pages/Email.vala',
   'Widgets/Pages/FileChooser.vala',
-
   'Widgets/Pages/Welcome.vala',
 )
 
