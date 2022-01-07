@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwStatusPage" id="main_widget">
+    <property name="title">Email</property>
+    <property name="description">Compose an email to open in your local email client</property>
+    <property name="icon-name">mail-symbolic</property>
+
+    <property name="child">
+      <object class="AdwClamp">
+        <property name="child">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Subject (Required)</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="subject_entry">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Body (Required)</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="body_entry">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup" id="address_group">
+                <property name="title">Addresses</property>
+                <property name="description">At least one is required</property>
+              </object>
+            </child>
+
+          </object>
+        </property>
+      </object>
+    </property>
+
+  </object>
+</interface>
