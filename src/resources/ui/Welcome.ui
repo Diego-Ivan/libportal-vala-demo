@@ -3,6 +3,7 @@
   <object class="AdwStatusPage" id="main_widget">
     <property name="title">Welcome to the Libportal Vala Demo</property>
 
+
     <property name="child">
 
       <object class="AdwClamp">

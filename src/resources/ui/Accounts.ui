@@ -3,6 +3,9 @@
   <object class="AdwStatusPage" id="main_widget">
     <property name="icon-name">person2-symbolic</property>
     <property name="description">Get user information</property>
+    <style>
+      <class name="compact"/>
+    </style>
 
     <property name="child">
       <object class="AdwClamp">

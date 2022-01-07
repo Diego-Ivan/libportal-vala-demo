@@ -3,6 +3,9 @@
   <object class="AdwStatusPage" id="main_widget">
     <property name="icon-name">screen-privacy2-symbolic</property>
     <property name="description">Allow the application to run in the background</property>
+    <style>
+      <class name="compact"/>
+    </style>
 
     <property name="child">
       <object class="AdwClamp">

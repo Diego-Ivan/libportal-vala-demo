@@ -14,6 +14,7 @@ namespace XdpVala {
         private Gtk.Button open_button;
         private Gtk.Button save_button;
         private Gtk.Label open_response;
+        private Adw.PreferencesGroup response_group;
 
         public FileChooser (Xdp.Portal portal_, Gtk.Window parent_win) {
             Object (
@@ -37,6 +38,7 @@ namespace XdpVala {
         public void on_open_button_clicked () {
             string title = open_title_entry.text;
             bool multiple = multiple_switch.active;
+            response_group.visible = true;
             Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
 
             portal.open_file.begin (
@@ -143,6 +145,7 @@ namespace XdpVala {
                 open_button = builder.get_object ("open_button") as Gtk.Button;
                 save_button = builder.get_object ("save_button") as Gtk.Button;
                 open_response = builder.get_object ("open_response") as Gtk.Label;
+                response_group = builder.get_object ("response_group") as Adw.PreferencesGroup;
             }
             catch (Error e) {
                 critical ("Error loading UI file: %s", e.message);

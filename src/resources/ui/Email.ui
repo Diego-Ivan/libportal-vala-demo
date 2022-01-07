@@ -4,6 +4,9 @@
     <property name="title">Email</property>
     <property name="description">Compose an email to open in your local email client</property>
     <property name="icon-name">mail-symbolic</property>
+    <style>
+      <class name="compact"/>
+    </style>
 
     <property name="child">
       <object class="AdwClamp">
