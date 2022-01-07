@@ -28,7 +28,7 @@
 
                 <child>
                   <object class="AdwActionRow">
-                    <property name="title">Body (Required)</property>
+                    <property name="title">Body</property>
                     <child type="suffix">
                       <object class="GtkEntry" id="body_entry">
                         <property name="valign">center</property>
@@ -44,6 +44,33 @@
               <object class="AdwPreferencesGroup" id="address_group">
                 <property name="title">Addresses</property>
                 <property name="description">At least one is required</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup" id="cc_group">
+                <property name="title">CC</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup" id="bcc_group">
+                <property name="title">BCC</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="send_button">
+                <property name="halign">start</property>
+                <property name="label">Send</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="result_label">
+                <property name="xalign">0</property>
+                <property name="halign">center</property>
+                <property name="visible">false</property>
               </object>
             </child>
 

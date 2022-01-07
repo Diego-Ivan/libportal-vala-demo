@@ -2,19 +2,6 @@
  *
  * Copyright 2022 Diego Iván <diegoivan.mae@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -41,9 +28,10 @@ namespace XdpVala {
             var listbox = child as Gtk.ListBox;
             if (new_address_row == null) {
                 new_address_row = new Adw.PreferencesRow () {
-                    child = new Gtk.Label ("Add a new Module"),
-                    margin_top = 12,
-                    margin_bottom = 12
+                    child = new Gtk.Label ("Add a new Module") {
+                        margin_top = 12,
+                        margin_bottom = 12
+                    }
                 };
             }
             else {
@@ -70,8 +58,13 @@ namespace XdpVala {
                 var e_row = current_row as EmailRow;
                 string email = e_row.email_entry.text;
 
-                if (email != "") {
+                if (email == "") {
+                    warning ("Row %i is empty", index);
+                    e_row.email_entry.add_css_class ("error");
+                }
+                else {
                     emails = emails + email;
+                    e_row.email_entry.remove_css_class ("error");
                 }
 
                 index++;
