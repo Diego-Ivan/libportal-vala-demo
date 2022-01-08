@@ -23,6 +23,7 @@ namespace XdpVala {
 		        new Pages.Welcome (portal, this),
 		        new Pages.Account (portal, this),
 		        new Pages.Background (portal, this),
+		        new Pages.ColorPicker (portal, this),
 		        new Pages.Email (portal, this),
 		        new Pages.FileChooser (portal, this),
 		    };

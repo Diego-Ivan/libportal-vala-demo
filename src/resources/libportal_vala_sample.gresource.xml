@@ -4,14 +4,19 @@
     <file alias="window.ui" preprocess="xml-stripblanks">ui/window.ui</file>
     <file alias="Accounts.ui" preprocess="xml-stripblanks">ui/Accounts.ui</file>
     <file alias="Background.ui" preprocess="xml-stripblanks">ui/Background.ui</file>
+    <file alias="ColorPicker.ui" preprocess="xml-stripblanks">ui/ColorPicker.ui</file>
     <file alias="Email.ui" preprocess="xml-stripblanks">ui/Email.ui</file>
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>
 
-    <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/screen-privacy2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/color-picker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/container-terminal-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/drawer-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/mail-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/screen-privacy2-symbolic.svg</file>
+
+    <file>style.css</file>
+
   </gresource>
 </gresources>

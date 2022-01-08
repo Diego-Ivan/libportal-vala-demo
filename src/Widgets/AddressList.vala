@@ -28,7 +28,7 @@ namespace XdpVala {
             var listbox = child as Gtk.ListBox;
             if (new_address_row == null) {
                 new_address_row = new Adw.PreferencesRow () {
-                    child = new Gtk.Label ("Add a new Module") {
+                    child = new Gtk.Label ("Add a new Address") {
                         margin_top = 12,
                         margin_bottom = 12
                     }
