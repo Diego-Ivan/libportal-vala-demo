@@ -7,6 +7,7 @@
     <file alias="ColorPicker.ui" preprocess="xml-stripblanks">ui/ColorPicker.ui</file>
     <file alias="Email.ui" preprocess="xml-stripblanks">ui/Email.ui</file>
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
+    <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>
 
     <file preprocess="xml-stripblanks">icons/color-picker-symbolic.svg</file>
@@ -15,6 +16,7 @@
     <file preprocess="xml-stripblanks">icons/mail-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/screen-privacy2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/camera-focus-symbolic.svg</file>
 
     <file>style.css</file>
 
