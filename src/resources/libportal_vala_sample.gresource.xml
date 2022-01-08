@@ -8,6 +8,7 @@
     <file alias="Email.ui" preprocess="xml-stripblanks">ui/Email.ui</file>
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
     <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
+    <file alias="Wallpaper.ui" preprocess="xml-stripblanks">ui/Wallpaper.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>
 
     <file preprocess="xml-stripblanks">icons/color-picker-symbolic.svg</file>

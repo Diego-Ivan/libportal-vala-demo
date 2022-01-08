@@ -27,6 +27,7 @@ namespace XdpVala {
 		        new Pages.Email (portal, this),
 		        new Pages.FileChooser (portal, this),
 		        new Pages.Screenshot (portal, this),
+		        new Pages.Wallpaper (portal, this),
 		    };
 
 		    foreach (var page in pages) {

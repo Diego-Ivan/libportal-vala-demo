@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwStatusPage" id="main_widget">
+    <property name="description">Set an image as your wallpaper</property>
+    <property name="icon-name">preferences-desktop-wallpaper-symbolic</property>
+    <style>
+      <class name="compact"/>
+    </style>
+
+    <property name="child">
+      <object class="AdwClamp">
+        <property name="child">
+
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+
+                <child>
+                  <object class="AdwComboRow" id="options_combo">
+                    <property name="title">Set on</property>
+                    <property name="model">
+
+                      <object class="GtkStringList">
+                        <items>
+                          <item>Wallpaper</item>
+                          <item>Lockscreen</item>
+                          <item>Both</item>
+                        </items>
+                      </object>
+
+                    </property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Request a preview</property>
+
+                    <child type="suffix">
+                      <object class="GtkSwitch" id="preview_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="open_button">
+                <property name="label">Choose an image</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="response_label">
+                <property name="visible">false</property>
+                <property name="ellipsize">end</property>
+
+              </object>
+            </child>
+
+          </object>
+
+        </property>
+      </object>
+    </property>
+
+  </object>
+</interface>
