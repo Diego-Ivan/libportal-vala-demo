@@ -28,6 +28,7 @@ namespace XdpVala {
 		        new Pages.FileChooser (portal, this),
 		        new Pages.OpenURI (portal, this),
 		        new Pages.Screenshot (portal, this),
+		        new Pages.TrashFile (portal, this),
 		        new Pages.Wallpaper (portal, this),
 		    };
 
