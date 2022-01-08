@@ -27,6 +27,7 @@ namespace XdpVala {
 		        new Pages.Email (portal, this),
 		        new Pages.FileChooser (portal, this),
 		        new Pages.OpenURI (portal, this),
+		        new Pages.Notification (portal, this),
 		        new Pages.Screenshot (portal, this),
 		        new Pages.TrashFile (portal, this),
 		        new Pages.Wallpaper (portal, this),

@@ -7,6 +7,7 @@
     <file alias="ColorPicker.ui" preprocess="xml-stripblanks">ui/ColorPicker.ui</file>
     <file alias="Email.ui" preprocess="xml-stripblanks">ui/Email.ui</file>
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
+    <file alias="Notification.ui" preprocess="xml-stripblanks">ui/Notification.ui</file>
     <file alias="OpenURI.ui" preprocess="xml-stripblanks">ui/OpenURI.ui</file>
     <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
     <file alias="TrashFile.ui" preprocess="xml-stripblanks">ui/TrashFile.ui</file>
