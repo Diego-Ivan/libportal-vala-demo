@@ -12,21 +12,21 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 
 - [x] Accounts (User information)
 - [x] Background
-- [] Camera
+- [ ] Camera
 - [x] Color Picker
 - [x] Email
 - [x] File Chooser (Open and Save Files)
-- [] Location
+- [ ] Location
 - [x] Notification
 - [x] Open URI
-- [] Print File
-- [] Remote Desktop
-- [] Screencast
+- [ ] Print File
+- [ ] Remote Desktop
+- [ ] Screencast
 - [x] Screenshot
-- [] Session (inhibit, monitor)
-- [] Spawn
+- [ ] Session (inhibit, monitor)
+- [ ] Spawn
 - [x] Trash File
-- [] Updates
+- [ ] Updates
 - [x] Wallpaper
 
 ## Install and Running
