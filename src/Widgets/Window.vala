@@ -9,6 +9,7 @@ namespace XdpVala {
 	[GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/window.ui")]
 	public class Window : Adw.ApplicationWindow {
 	    [GtkChild] unowned Gtk.Stack main_stack;
+	    [GtkChild] unowned Adw.Leaflet leaflet;
 	    private Xdp.Portal portal;
 	    private Page[] pages;
 
@@ -40,6 +41,16 @@ namespace XdpVala {
 		            page.title
 		        );
 		    }
+		}
+
+		[GtkCallback]
+		private void stack_notify_visible_child_cb () {
+		    leaflet.navigate (FORWARD);
+		}
+
+		[GtkCallback]
+		private void on_go_back_button_clicked_cb () {
+		    leaflet.navigate (BACK);
 		}
 	}
 }
