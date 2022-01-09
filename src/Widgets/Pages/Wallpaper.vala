@@ -14,10 +14,9 @@ namespace XdpVala {
         private Xdp.WallpaperFlags flags;
         private string image_path;
 
-        public Wallpaper (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Wallpaper (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Wallpaper"
             );
         }
@@ -70,7 +69,7 @@ namespace XdpVala {
 
             var filechooser = new Gtk.FileChooserNative (
                 "Select an image file",
-                parent_window,
+                get_native () as Gtk.Window,
                 OPEN,
                 null,
                 null
@@ -81,7 +80,7 @@ namespace XdpVala {
                 if (res == Gtk.ResponseType.ACCEPT) {
                     image_path = filechooser.get_file ().get_uri ();
 
-                    Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+                    Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
                     portal.set_wallpaper.begin (
                         parent,
                         image_path,

@@ -15,10 +15,9 @@ namespace XdpVala {
         private Gtk.Box results_box;
         private bool request_succesful { get; set; }
 
-        public Account (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Account (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Accounts"
             );
         }
@@ -36,7 +35,7 @@ namespace XdpVala {
                     reason_entry.remove_css_class ("error");
                 }
 
-                var parent = Xdp.parent_new_gtk (parent_window);
+                var parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
                 portal.get_user_information.begin (
                     parent,

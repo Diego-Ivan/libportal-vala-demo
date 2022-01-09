@@ -9,7 +9,6 @@ namespace XdpVala {
     public abstract class Page : Adw.Bin {
         public string title { get; set; }
         public Xdp.Portal portal { get; construct set; }
-        public Gtk.Window parent_window { get; construct set; }
 
         construct {
             vexpand = true;

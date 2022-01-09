@@ -18,10 +18,9 @@ namespace XdpVala {
             { "send_action", notification_action }
         };
 
-        public Notification (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Notification (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Notification"
             );
         }

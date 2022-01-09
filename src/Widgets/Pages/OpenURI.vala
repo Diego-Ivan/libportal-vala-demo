@@ -12,10 +12,9 @@ namespace XdpVala {
         private Gtk.Switch writable_switch;
         private Gtk.Button open_button;
 
-        public OpenURI (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public OpenURI (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Open URI"
             );
         }
@@ -33,7 +32,7 @@ namespace XdpVala {
 
         private void on_open_button_clicked () {
             Xdp.OpenUriFlags flags = NONE;
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             if (ask_switch.active && writable_switch.active) {
                 flags = ASK | WRITABLE;

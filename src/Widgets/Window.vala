@@ -20,17 +20,17 @@ namespace XdpVala {
 		    portal = new Xdp.Portal ();
 
 		    pages = {
-		        new Pages.Welcome (portal, this),
-		        new Pages.Account (portal, this),
-		        new Pages.Background (portal, this),
-		        new Pages.ColorPicker (portal, this),
-		        new Pages.Email (portal, this),
-		        new Pages.FileChooser (portal, this),
-		        new Pages.OpenURI (portal, this),
-		        new Pages.Notification (portal, this),
-		        new Pages.Screenshot (portal, this),
-		        new Pages.TrashFile (portal, this),
-		        new Pages.Wallpaper (portal, this),
+		        new Pages.Welcome (portal),
+		        new Pages.Account (portal),
+		        new Pages.Background (portal),
+		        new Pages.ColorPicker (portal),
+		        new Pages.Email (portal),
+		        new Pages.FileChooser (portal),
+		        new Pages.OpenURI (portal),
+		        new Pages.Notification (portal),
+		        new Pages.Screenshot (portal),
+		        new Pages.TrashFile (portal),
+		        new Pages.Wallpaper (portal),
 		    };
 
 		    foreach (var page in pages) {

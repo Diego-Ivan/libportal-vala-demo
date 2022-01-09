@@ -16,10 +16,9 @@ namespace XdpVala {
         private Gtk.Label open_response;
         private Adw.PreferencesGroup response_group;
 
-        public FileChooser (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public FileChooser (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "File Chooser"
             );
         }
@@ -39,7 +38,7 @@ namespace XdpVala {
             string title = open_title_entry.text;
             bool multiple = multiple_switch.active;
             response_group.visible = true;
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             portal.open_file.begin (
                 parent,
@@ -62,7 +61,7 @@ namespace XdpVala {
 
             var dialog = new Gtk.FileChooserNative (
                 title,
-                parent_window,
+                get_native () as Gtk.Window,
                 Gtk.FileChooserAction.SAVE,
                 null,
                 null

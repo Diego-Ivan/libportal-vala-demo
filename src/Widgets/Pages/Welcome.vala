@@ -9,10 +9,9 @@ namespace XdpVala {
     public class Pages.Welcome : Page {
         private Gtk.Label status_label;
 
-        public Welcome (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Welcome (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Welcome"
             );
         }

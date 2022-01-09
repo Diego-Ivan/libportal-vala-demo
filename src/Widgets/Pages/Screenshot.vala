@@ -13,10 +13,9 @@ namespace XdpVala {
         private Gtk.Button capture_button;
         private Adw.PreferencesGroup results_group;
 
-        public Screenshot (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Screenshot (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Screenshot"
             );
         }
@@ -35,7 +34,7 @@ namespace XdpVala {
 
         private void on_capture_button_clicked () {
             bool interactive = interactive_switch.active;
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             portal.take_screenshot.begin (
                 parent,

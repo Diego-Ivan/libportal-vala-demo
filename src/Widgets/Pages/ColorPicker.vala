@@ -14,10 +14,9 @@ namespace XdpVala {
         private Gtk.Label green_label;
         private Gtk.Label blue_label;
 
-        public ColorPicker (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public ColorPicker (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Color Picker"
             );
         }
@@ -33,7 +32,7 @@ namespace XdpVala {
         }
 
         private void on_pick_button_clicked () {
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.pick_color.begin (
                 parent,
                 null,

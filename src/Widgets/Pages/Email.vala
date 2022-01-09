@@ -15,10 +15,9 @@ namespace XdpVala {
         private Gtk.Entry body_entry;
         private Gtk.Label result_label;
 
-        public Email (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Email (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Email"
             );
         }
@@ -60,7 +59,7 @@ namespace XdpVala {
             string[] cc = cc_list.retrieve_emails ();
             string[] bcc = bcc_list.retrieve_emails ();
 
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.compose_email.begin (
                 parent,
                 addresses,

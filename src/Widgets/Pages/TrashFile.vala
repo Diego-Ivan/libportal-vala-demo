@@ -11,10 +11,9 @@ namespace XdpVala {
         private Gtk.Label result_label;
         private string path;
 
-        public TrashFile (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public TrashFile (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Trash File"
             );
         }
@@ -31,7 +30,7 @@ namespace XdpVala {
         }
 
         private void on_open_button_clicked () {
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.open_file.begin (
                 parent,
                 "Select a file to trash",

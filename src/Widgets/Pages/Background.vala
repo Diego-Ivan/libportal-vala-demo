@@ -11,10 +11,9 @@ namespace XdpVala {
         private Gtk.Switch autostart_switch;
         private Gtk.Button request_button;
         private Gtk.Label result_label;
-        public Background (Xdp.Portal portal_, Gtk.Window parent_win) {
+        public Background (Xdp.Portal portal_) {
             Object (
                 portal: portal_,
-                parent_window: parent_win,
                 title: "Background"
             );
         }
@@ -50,7 +49,7 @@ namespace XdpVala {
                 flags = NONE;
             }
 
-            Xdp.Parent parent = Xdp.parent_new_gtk (parent_window);
+            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             GLib.GenericArray<weak string> array = new GLib.GenericArray<weak string>();
             array.add ("/bin/true");
