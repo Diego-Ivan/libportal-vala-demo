@@ -4,6 +4,7 @@
     <file alias="window.ui" preprocess="xml-stripblanks">ui/window.ui</file>
     <file alias="Accounts.ui" preprocess="xml-stripblanks">ui/Accounts.ui</file>
     <file alias="Background.ui" preprocess="xml-stripblanks">ui/Background.ui</file>
+    <file alias="Camera.ui" preprocess="xml-stripblanks">ui/Camera.ui</file>
     <file alias="ColorPicker.ui" preprocess="xml-stripblanks">ui/ColorPicker.ui</file>
     <file alias="Email.ui" preprocess="xml-stripblanks">ui/Email.ui</file>
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
