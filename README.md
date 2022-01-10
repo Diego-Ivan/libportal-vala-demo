@@ -12,7 +12,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 
 - [x] Accounts (User information)
 - [x] Background
-- [ ] Camera
+- [x] Camera (Kinda, [needs help to be 100% completed](https://github.com/Diego-Ivan/libportal-vala-demo/issues/1)
 - [x] Color Picker
 - [x] Email
 - [x] File Chooser (Open and Save Files)
