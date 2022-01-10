@@ -9,6 +9,7 @@
       <object class="AdwClamp">
         <property name="child">
           <object class="AdwPreferencesGroup">
+
             <child>
               <object class="AdwActionRow">
                 <property name="title">Sandbox Status</property>
@@ -18,6 +19,20 @@
                 </child>
               </object>
             </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Sandbox</property>
+                <child type="suffix">
+                  <object class="GtkLabel" id="sandbox_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+
           </object>
         </property>
       </object>

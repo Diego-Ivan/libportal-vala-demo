@@ -8,6 +8,7 @@
 namespace XdpVala {
     public class Pages.Welcome : Page {
         private Gtk.Label status_label;
+        private Gtk.Label sandbox_label;
 
         public Welcome (Xdp.Portal portal_) {
             Object (
@@ -22,14 +23,7 @@ namespace XdpVala {
 
             var status = child as Adw.StatusPage;
 
-            var path = GLib.Path.build_filename (
-                GLib.Environment.get_user_runtime_dir (),
-                "flatpak-info"
-            );
-
-            bool sandboxed = GLib.FileUtils.test (path, EXISTS);
-
-            if (sandboxed) {
+            if (Xdp.Portal.running_under_sandbox ()) {
                 status.icon_name = "security-high-symbolic";
                 status_label.label = "Confined";
                 status_label.add_css_class ("success");
@@ -38,6 +32,24 @@ namespace XdpVala {
                 status.icon_name = "security-high-symbolic";
                 status_label.label = "Unconfined";
                 status_label.add_css_class ("warning");
+
+                sandbox_label.label = "None";
+                return;
+            }
+
+            if (Xdp.Portal.running_under_flatpak ()) {
+                sandbox_label.label = "Flatpak";
+                return;
+            }
+
+            try {
+                if (Xdp.Portal.running_under_snap ()) {
+                    sandbox_label.label = "Snap";
+                }
+            }
+            catch (Error e) {
+                warning (e.message);
+                sandbox_label.label = "Unknown";
             }
         }
 
@@ -48,6 +60,7 @@ namespace XdpVala {
                 child = builder.get_object ("main_widget") as Gtk.Widget;
 
                 status_label = builder.get_object ("status_label") as Gtk.Label;
+                sandbox_label = builder.get_object ("sandbox_label") as Gtk.Label;
             }
             catch (Error e) {
                 critical ("Error loading UI file: %s", e.message);
