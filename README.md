@@ -21,7 +21,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 - [x] Open URI
 - [ ] Print File
 - [ ] Remote Desktop
-- [ ] Screencast
+- [x] Screencast
 - [x] Screenshot
 - [ ] Session (inhibit, monitor)
 - [ ] Spawn

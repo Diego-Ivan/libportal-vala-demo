@@ -30,6 +30,7 @@ namespace XdpVala {
 		        new Pages.FileChooser (portal),
 		        new Pages.OpenURI (portal),
 		        new Pages.Notification (portal),
+		        new Pages.Screencast (portal),
 		        new Pages.Screenshot (portal),
 		        new Pages.TrashFile (portal),
 		        new Pages.Wallpaper (portal),

@@ -10,6 +10,7 @@
     <file alias="FileChooser.ui" preprocess="xml-stripblanks">ui/FileChooser.ui</file>
     <file alias="Notification.ui" preprocess="xml-stripblanks">ui/Notification.ui</file>
     <file alias="OpenURI.ui" preprocess="xml-stripblanks">ui/OpenURI.ui</file>
+    <file alias="Screencast.ui" preprocess="xml-stripblanks">ui/Screencast.ui</file>
     <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
     <file alias="TrashFile.ui" preprocess="xml-stripblanks">ui/TrashFile.ui</file>
     <file alias="Wallpaper.ui" preprocess="xml-stripblanks">ui/Wallpaper.ui</file>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwStatusPage" id="main_widget">
+    <property name="description">Start a screencast session</property>
+    <property name="icon-name">screen-shared-symbolic</property>
+    <style>
+      <class name="compact"/>
+    </style>
+
+    <property name="child">
+      <object class="AdwClamp">
+        <property name="child">
+
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title">Sources</property>
+                <property name="description">Specify the kind of sources that will be offered to the user</property>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Monitor</property>
+                    <property name="activatable-widget">monitor_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="monitor_check">
+                        <property name="active">true</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Window</property>
+                    <property name="activatable-widget">window_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="window_check"></object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Virtual</property>
+                    <property name="activatable-widget">virtual_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="virtual_check"></object>
+                    </child>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Allow multiple</property>
+                    <property name="activatable-widget">multi_switch</property>
+                    <child type="suffix">
+                      <object class="GtkSwitch" id="multi_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title">Cursor Mode</property>
+                <property name="description">Options for how the cursor is handled</property>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Hidden</property>
+                    <property name="subtitle">No cursor will be shown</property>
+                    <property name="activatable-widget">hidden_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="hidden_check">
+                        <property name="active">true</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Embedded</property>
+                    <property name="subtitle">Cursor is embedded on the stream</property>
+                    <property name="activatable-widget">embedded_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="embedded_check"></object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Metadata</property>
+                    <property name="subtitle">Cursor is sent as metadata of the stream</property>
+                    <property name="activatable-widget">metadata_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="metadata_check"></object>
+                    </child>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="status_label">
+                <property name="visible">false</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+
+                <child>
+                  <object class="GtkButton" id="start_button">
+                    <property name="label">Start screencast</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="close_button">
+                    <property name="label">Close screencast</property>
+                    <property name="halign">end</property>
+                    <property name="hexpand">true</property>
+                    <style>
+                      <class name="destructive-action"/>
+                    </style>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>
