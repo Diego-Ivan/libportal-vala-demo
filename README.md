@@ -16,7 +16,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 - [x] Color Picker
 - [x] Email
 - [x] File Chooser (Open and Save Files)
-- [ ] Location
+- [x] Location
 - [x] Notification
 - [x] Open URI
 - [ ] Print File
