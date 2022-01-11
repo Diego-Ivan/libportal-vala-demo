@@ -40,6 +40,22 @@
         	}
     		]
     	},
+
+    	{
+            "name": "libshumate",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dgtk_doc=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libshumate/",
+                    "commit": "499406f91b86c23b7ffb530164a408e4e2789a3e"
+                }
+            ]
+        },
+
       {
         "name" : "libportal-vala-sample",
         "builddir" : true,

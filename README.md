@@ -12,7 +12,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 
 - [x] Accounts (User information)
 - [x] Background
-- [x] Camera (Kinda, [needs help to be 100% completed](https://github.com/Diego-Ivan/libportal-vala-demo/issues/1)
+- [x] Camera (Kinda, [needs help to be 100% completed](https://github.com/Diego-Ivan/libportal-vala-demo/issues/1))
 - [x] Color Picker
 - [x] Email
 - [x] File Chooser (Open and Save Files)
@@ -33,7 +33,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 
 ### GNOME Builder
 
-The recommended way of running this project is through Flatpak and GNOME Builder. Clone the project and run. Requires the `org.gnome.Platform` runtime, from the master branch. You can get it from the GNOME Nightly Flatpak remote. Libportal and the GTK4 backend will be built with the project.
+The recommended way of running this project is through Flatpak and GNOME Builder. Clone the project and run. Requires the `org.gnome.Platform` runtime, from the master branch. You can get it from the GNOME Nightly Flatpak remote. Libportal and Libshumate will be built with the project.
 
 To install, use the *Export as package* feature (available in the top bar omniarea) and open the `.flatpak` double-clicking, and install.
 
@@ -46,6 +46,7 @@ gtk4
 libadwaita-1
 libportal
 libportal-gtk4
+shumate-0.0
 ```
 
 Build using the Meson Build System:
