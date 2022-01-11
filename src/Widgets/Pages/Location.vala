@@ -53,6 +53,7 @@ namespace XdpVala {
             );
 
             start_button.clicked.connect (on_start_button_clicked);
+            stop_button.clicked.connect (on_stop_button_clicked);
             portal.location_updated.connect (on_location_updated);
         }
 
@@ -141,6 +142,10 @@ namespace XdpVala {
                 error_label.label = e.message;
                 error_label.visible = true;
             }
+        }
+
+        private void on_stop_button_clicked () {
+            portal.location_monitor_stop ();
         }
 
         public override void build_ui () {
