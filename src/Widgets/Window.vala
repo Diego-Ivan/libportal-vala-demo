@@ -33,6 +33,7 @@ namespace XdpVala {
 		        new Pages.Notification (portal),
 		        new Pages.Screencast (portal),
 		        new Pages.Screenshot (portal),
+		        new Pages.Session (portal),
 		        new Pages.TrashFile (portal),
 		        new Pages.Wallpaper (portal),
 		    };

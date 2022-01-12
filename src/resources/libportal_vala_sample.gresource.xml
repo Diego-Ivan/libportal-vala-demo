@@ -13,6 +13,7 @@
     <file alias="OpenURI.ui" preprocess="xml-stripblanks">ui/OpenURI.ui</file>
     <file alias="Screencast.ui" preprocess="xml-stripblanks">ui/Screencast.ui</file>
     <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
+    <file alias="Session.ui" preprocess="xml-stripblanks">ui/Session.ui</file>
     <file alias="TrashFile.ui" preprocess="xml-stripblanks">ui/TrashFile.ui</file>
     <file alias="Wallpaper.ui" preprocess="xml-stripblanks">ui/Wallpaper.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>

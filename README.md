@@ -23,7 +23,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 - [ ] Remote Desktop
 - [x] Screencast
 - [x] Screenshot
-- [ ] Session (inhibit, monitor)
+- [x] Session (inhibit, monitor)
 - [ ] Spawn
 - [x] Trash File
 - [ ] Updates
