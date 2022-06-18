@@ -20,31 +20,31 @@ namespace XdpVala {
 		construct {
 		    portal = new Xdp.Portal ();
 
-		    pages = {
-		        new Pages.Welcome (portal),
-		        new Pages.Account (portal),
-		        new Pages.Background (portal),
-		        new Pages.Camera (portal),
-		        new Pages.ColorPicker (portal),
-		        new Pages.Email (portal),
-		        new Pages.FileChooser (portal),
-		        new Pages.Location (portal),
-		        new Pages.OpenURI (portal),
-		        new Pages.Notification (portal),
-		        new Pages.Screencast (portal),
-		        new Pages.Screenshot (portal),
-		        new Pages.Session (portal),
-		        new Pages.TrashFile (portal),
-		        new Pages.Wallpaper (portal),
-		    };
+		    // pages = {
+		    //     new Pages.Welcome (portal),
+		    //     new Pages.Account (portal),
+		    //     new Pages.Background (portal),
+		    //     new Pages.Camera (portal),
+		    //     new Pages.ColorPicker (portal),
+		    //     new Pages.Email (portal),
+		    //     new Pages.FileChooser (portal),
+		    //     new Pages.Location (portal),
+		    //     new Pages.OpenURI (portal),
+		    //     new Pages.Notification (portal),
+		    //     new Pages.Screencast (portal),
+		    //     new Pages.Screenshot (portal),
+		    //     new Pages.Session (portal),
+		    //     new Pages.TrashFile (portal),
+		    //     new Pages.Wallpaper (portal),
+		    // };
 
-		    foreach (var page in pages) {
-		        main_stack.add_titled (
-		            page,
-		            page.title,
-		            page.title
-		        );
-		    }
+		    // foreach (var page in pages) {
+		    //     main_stack.add_titled (
+		    //         page,
+		    //         page.title,
+		    //         page.title
+		    //     );
+		    // }
 		}
 
 		[GtkCallback]

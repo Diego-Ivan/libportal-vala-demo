@@ -6,12 +6,46 @@
  */
 
 namespace XdpVala {
-    public abstract class Page : Adw.Bin {
-        public string title { get; set; }
+    public abstract class Page : Adw.Bin, Gtk.Buildable {
+        public string title {
+            get {
+                return status_page.title;
+            }
+            set {
+                status_page.title = value;
+            }
+        }
+
+        public string description {
+            get {
+                return status_page.description;
+            }
+            set {
+                status_page.description = value;
+            }
+        }
+
+        public string icon_name {
+            get {
+                return status_page.icon_name;
+            }
+            set {
+                status_page.icon_name = value;
+            }
+        }
+
+        private Adw.StatusPage status_page = new Adw.StatusPage ();
+        private Adw.Clamp clamp = new Adw.Clamp ();
         public Xdp.Portal portal { get; construct set; }
 
         construct {
-            vexpand = true;
+            child = status_page;
+            status_page.child = clamp;
+        }
+
+        public void add_child (Gtk.Builder builder, Object child, string? type) {
+            return_if_fail (child is Gtk.Widget);
+            clamp.child = (Gtk.Widget) child;
         }
 
         public abstract void build_ui ();
