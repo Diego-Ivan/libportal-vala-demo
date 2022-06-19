@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.compose_email.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Email.ui")]
     public class Pages.Email : Page {
         [GtkChild]
@@ -43,6 +44,7 @@ namespace XdpVala {
                 return;
             }
 
+            // Obtain the adressess given by the user
             string[] addresses = address_list.retrieve_emails ();
             if (addresses.length == 0) {
                 result_label.label = "No addresses have been provided";
@@ -50,21 +52,22 @@ namespace XdpVala {
                 return;
             }
 
-            string[] cc = cc_list.retrieve_emails ();
-            string[] bcc = bcc_list.retrieve_emails ();
+            string[] cc = cc_list.retrieve_emails (); // CC lists given by the user
+            string[] bcc = bcc_list.retrieve_emails (); // BCC lists given by the user
 
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.compose_email.begin (
-                parent,
-                addresses,
-                cc,
-                bcc,
-                subject,
-                body,
-                null,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                addresses, // String array of addresses that the email will be sent to
+                cc, // String array of the CC addressess of the email
+                bcc, // String array of the BCC addressess of the email
+                subject, // Subject of the email
+                body, // Body of the email
+                null, // Array of file URIs that will be attached to the email. Using none
+                NONE, // Flags of the request. Currently, the only value is NONE
+                null, // Cancellable, we're using none
+                callback // Callback of the function in which we will receive the result of the petition
             );
         }
 
@@ -72,7 +75,7 @@ namespace XdpVala {
             bool success;
 
             try {
-                success = portal.compose_email.end (res);
+                success = portal.compose_email.end (res); // Know if our request was successful
 
                 if (success) {
                     result_label.label = "Request was successful";
