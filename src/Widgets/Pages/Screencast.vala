@@ -6,19 +6,30 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Screencast.ui")]
     public class Pages.Screencast : Page {
-        private Gtk.CheckButton monitor_check;
-        private Gtk.CheckButton window_check;
-        private Gtk.CheckButton virtual_check;
-        private Gtk.Switch multi_switch;
+        [GtkChild]
+        private unowned Gtk.CheckButton monitor_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton window_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton virtual_check;
+        [GtkChild]
+        private unowned Gtk.Switch multi_switch;
 
-        private Gtk.CheckButton hidden_check;
-        private Gtk.CheckButton embedded_check;
-        private Gtk.CheckButton metadata_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton hidden_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton embedded_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton metadata_check;
 
-        private Gtk.Label status_label;
-        private Gtk.Button start_button;
-        private Gtk.Button close_button;
+        [GtkChild]
+        private unowned Gtk.Label status_label;
+        [GtkChild]
+        private unowned Gtk.Button start_button;
+        [GtkChild]
+        private unowned Gtk.Button close_button;
 
         public bool screencast_active { get; private set; }
         public Xdp.Session session { get; private set; }
@@ -32,13 +43,6 @@ namespace XdpVala {
             );
         }
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             screencast_active = false;
             bind_property ("screencast-active",
                 start_button, "sensitive",
@@ -49,11 +53,9 @@ namespace XdpVala {
                 close_button, "sensitive",
                 SYNC_CREATE
             );
-
-            start_button.clicked.connect (on_start_button_clicked);
-            close_button.clicked.connect (on_close_button_clicked);
         }
 
+        [GtkCallback]
         private void on_start_button_clicked () {
             status_label.visible = true;
             status_label.remove_css_class ("error");
@@ -76,6 +78,13 @@ namespace XdpVala {
                 null,
                 callback
             );
+        }
+
+        [GtkCallback]
+        private void on_close_button_clicked () {
+            session.close ();
+            screencast_active = false;
+            status_label.label = "Session has been closed";
         }
 
         private bool get_output_types () {
@@ -167,36 +176,6 @@ namespace XdpVala {
                 critical (e.message);
                 status_label.label = e.message;
                 status_label.add_css_class ("error");
-            }
-        }
-
-        private void on_close_button_clicked () {
-            session.close ();
-            screencast_active = false;
-            status_label.label = "Session has been closed";
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Screencast.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                monitor_check = builder.get_object ("monitor_check") as Gtk.CheckButton;
-                window_check = builder.get_object ("window_check") as Gtk.CheckButton;
-                virtual_check = builder.get_object ("virtual_check") as Gtk.CheckButton;
-                multi_switch = builder.get_object ("multi_switch") as Gtk.Switch;
-
-                hidden_check = builder.get_object ("hidden_check") as Gtk.CheckButton;
-                embedded_check = builder.get_object ("embedded_check") as Gtk.CheckButton;
-                metadata_check = builder.get_object ("metadata_check") as Gtk.CheckButton;
-
-                status_label = builder.get_object ("status_label") as Gtk.Label;
-                start_button = builder.get_object ("start_button") as Gtk.Button;
-                close_button = builder.get_object ("close_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }
