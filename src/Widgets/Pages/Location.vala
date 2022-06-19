@@ -43,7 +43,7 @@ namespace XdpVala {
         [GtkChild]
         private unowned Gtk.Label head_label;
         [GtkChild]
-        private Gtk.Label error_label;
+        private unowned Gtk.Label error_label;
 
         public bool monitor_active { get; private set; }
 
@@ -129,7 +129,8 @@ namespace XdpVala {
             double speed,
             double heading
         ) {
-            map_location.center_on (longitude, altitude);
+            map_location.center_on (latitude, longitude);
+            map_location.go_to_full_with_duration (latitude, longitude, 300, 600);
 
             lat_label.label = latitude.to_string ();
             longi_label.label = longitude.to_string ();
@@ -164,6 +165,7 @@ namespace XdpVala {
         [GtkCallback]
         private void on_stop_button_clicked () {
             portal.location_monitor_stop ();
+            monitor_active = false;
         }
     }
 }
