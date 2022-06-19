@@ -16,6 +16,18 @@ namespace XdpVala {
             }
         }
 
+        public string? _short_title = null;
+        public string? short_title {
+            get {
+                if (_short_title == null)
+                    return title;
+                return _short_title;
+            }
+            set {
+                _short_title = value;
+            }
+        }
+
         public string description {
             get {
                 return status_page.description;
@@ -48,7 +60,6 @@ namespace XdpVala {
             clamp.child = (Gtk.Widget) child;
         }
 
-        public abstract void build_ui ();
         public abstract void callback (GLib.Object? obj, AsyncResult res);
     }
 }

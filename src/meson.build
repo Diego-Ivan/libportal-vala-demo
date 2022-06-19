@@ -24,7 +24,7 @@ libportal_vala_sample_code_sources = files (
   # 'Widgets/Pages/Session.vala',
   # 'Widgets/Pages/TrashFile.vala',
   # 'Widgets/Pages/Wallpaper.vala',
-  # 'Widgets/Pages/Welcome.vala',
+  'Widgets/Pages/Welcome.vala',
 )
 
 libportal_vala_sample_deps = [

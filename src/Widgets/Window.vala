@@ -20,8 +20,8 @@ namespace XdpVala {
 		construct {
 		    portal = new Xdp.Portal ();
 
-		    // pages = {
-		    //     new Pages.Welcome (portal),
+		    pages = {
+		        new Pages.Welcome (portal)
 		    //     new Pages.Account (portal),
 		    //     new Pages.Background (portal),
 		    //     new Pages.Camera (portal),
@@ -36,15 +36,15 @@ namespace XdpVala {
 		    //     new Pages.Session (portal),
 		    //     new Pages.TrashFile (portal),
 		    //     new Pages.Wallpaper (portal),
-		    // };
+		    };
 
-		    // foreach (var page in pages) {
-		    //     main_stack.add_titled (
-		    //         page,
-		    //         page.title,
-		    //         page.title
-		    //     );
-		    // }
+		    foreach (var page in pages) {
+		        main_stack.add_titled (
+		            page,
+		            page.short_title,
+		            page.short_title
+		        );
+		    }
 		}
 
 		[GtkCallback]
