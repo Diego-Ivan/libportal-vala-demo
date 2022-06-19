@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.open_file.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/FileChooser.ui")]
     public class Pages.FileChooser : Page {
         [GtkChild]
@@ -32,32 +33,32 @@ namespace XdpVala {
 
         [GtkCallback]
         public void on_open_button_clicked () {
-            string title = open_title_entry.text;
-            bool multiple = multiple_switch.active;
             response_group.visible = true;
+
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             portal.open_file.begin (
-                parent,
-                title,
-                null,
-                null,
-                null,
-                multiple? Xdp.OpenFileFlags.MULTIPLE : Xdp.OpenFileFlags.NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                open_title_entry.text, // Title of the dialog
+                null, // Filters as Variant. Using none
+                null, // Current filter as Variant, using none
+                null, // Current filter as choices, using none
+                multiple_switch.active? Xdp.OpenFileFlags.MULTIPLE : Xdp.OpenFileFlags.NONE, // Flags for the call, whether its multiple files or a single one
+                null, // Cancellable, using none
+                callback // Callback of the function in which we will receive the output of our petition
             );
         }
 
         [GtkCallback]
         public void on_save_button_clicked () {
-            string title = save_title_entry.text;
+            // Gtk Provides the FileChooserNative API, an easy to use filechooser portal
             var dialog = new Gtk.FileChooserNative (
-                title,
-                get_native () as Gtk.Window,
-                Gtk.FileChooserAction.SAVE,
-                null,
-                null
+                save_title_entry.text, // Title of the dialog
+                get_native () as Gtk.Window, // Window parent
+                Gtk.FileChooserAction.SAVE, // Action, whether its SAVE or OPEN
+                null, // Accept button label, using the default
+                null // Cancel button label, using the default
             );
 
             string[] encoding_options = {
@@ -80,11 +81,11 @@ namespace XdpVala {
 
             dialog.response.connect ((res) => {
                 if (res == Gtk.ResponseType.ACCEPT) {
-                    string path = dialog.get_file ().get_path ();
+                    string path = dialog.get_file ().get_path (); // Obtaining the file that was given to us
                     bool result = false;
 
                     try {
-                        result = GLib.FileUtils.set_contents (path, text_entry.text);
+                        result = GLib.FileUtils.set_contents (path, text_entry.text); // Writing to such file
                     }
                     catch (Error e) {
                         critical (e.message);
@@ -100,15 +101,16 @@ namespace XdpVala {
         }
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
-            GLib.Variant info;
+            GLib.Variant info; // Result as a Variant
             open_response.label = "";
             try {
                 info = portal.open_file.end (res);
-                Variant uris = info.lookup_value ("uris", VariantType.STRING_ARRAY);
-                string[] files = uris as string[];
+                Variant uris = info.lookup_value ("uris", VariantType.STRING_ARRAY); // Lookup for the URIs of the files
+                string[] files = (string[]) uris;
 
                 for (int i = 0; i < files.length; i++) {
                     string response = "%s\n".printf (files[i]);
+                    // displaye the URIs on screen
                     open_response.label += response;
                 }
 
