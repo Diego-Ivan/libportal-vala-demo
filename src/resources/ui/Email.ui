@@ -14,24 +14,14 @@
           <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="subject_entry">
                 <property name="title">Subject (Required)</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="subject_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="body_entry">
                 <property name="title">Body</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="body_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 

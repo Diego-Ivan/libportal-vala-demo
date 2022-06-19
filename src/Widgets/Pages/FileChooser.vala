@@ -9,11 +9,11 @@ namespace XdpVala {
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/FileChooser.ui")]
     public class Pages.FileChooser : Page {
         [GtkChild]
-        private unowned Gtk.Entry open_title_entry;
+        private unowned Adw.EntryRow open_title_entry;
         [GtkChild]
-        private unowned Gtk.Entry save_title_entry;
+        private unowned Adw.EntryRow save_title_entry;
         [GtkChild]
-        private unowned Gtk.Entry text_entry;
+        private unowned Adw.EntryRow text_entry;
         [GtkChild]
         private unowned Gtk.Switch multiple_switch;
         [GtkChild]
@@ -52,11 +52,6 @@ namespace XdpVala {
         [GtkCallback]
         public void on_save_button_clicked () {
             string title = save_title_entry.text;
-
-            if (title == "") {
-                title = save_title_entry.placeholder_text;
-            }
-
             var dialog = new Gtk.FileChooserNative (
                 title,
                 get_native () as Gtk.Window,

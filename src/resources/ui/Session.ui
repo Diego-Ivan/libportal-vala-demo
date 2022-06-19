@@ -134,13 +134,8 @@
             </child>
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="reason_entry">
                 <property name="title">Reason</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="reason_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 

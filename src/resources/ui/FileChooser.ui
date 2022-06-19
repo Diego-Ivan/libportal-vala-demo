@@ -19,15 +19,8 @@
                 <property name="title">Open a file</property>
 
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwEntryRow" id="open_title_entry">
                     <property name="title">Dialog Title</property>
-                    <property name="subtitle">Title of the file chooser dialog</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="open_title_entry">
-                        <property name="valign">center</property>
-                        <property name="placeholder-text">Choose a file</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
 
@@ -89,25 +82,14 @@
                 <property name="title">Save a file</property>
 
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwEntryRow" id="save_title_entry">
                     <property name="title">Dialog Title</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="save_title_entry">
-                        <property name="valign">center</property>
-                        <property name="placeholder-text">Save a file</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
 
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwEntryRow" id="text_entry">
                     <property name="title">Text to write</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="text_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
 

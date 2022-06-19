@@ -9,7 +9,7 @@ namespace XdpVala {
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/OpenURI.ui")]
     public class Pages.OpenURI : Page {
         [GtkChild]
-        private unowned Gtk.Entry uri_entry;
+        private unowned Adw.EntryRow uri_entry;
         [GtkChild]
         private unowned Gtk.Switch ask_switch;
         [GtkChild]

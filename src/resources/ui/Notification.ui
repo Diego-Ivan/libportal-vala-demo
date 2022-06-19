@@ -14,35 +14,20 @@
           <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="title_entry">
                 <property name="title">Title</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="title_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="id_entry">
                 <property name="title">ID</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="id_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwEntryRow" id="body_entry">
                 <property name="title">Body</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="body_entry">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
 

@@ -14,15 +14,9 @@
           <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwActionRow">
-                <property name="title">URI</property>
-                <property name="subtitle">Requires https:// prefix</property>
-                <child type="suffix">
-                  <object class="GtkEntry" id="uri_entry">
-                    <property name="valign">center</property>
-                    <property name="text">https://github.com/Diego-Ivan</property>
-                  </object>
-                </child>
+              <object class="AdwEntryRow" id="uri_entry">
+                <property name="title">URI (with https:// prefix)</property>
+                <property name="text">https://github.com/Diego-Ivan</property>
               </object>
             </child>
 

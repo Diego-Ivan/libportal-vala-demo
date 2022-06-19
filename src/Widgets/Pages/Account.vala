@@ -11,7 +11,7 @@ namespace XdpVala {
         [GtkChild]
         private unowned Gtk.Image avatar;
         [GtkChild]
-        private unowned Gtk.Entry reason_entry;
+        private unowned Adw.EntryRow reason_entry;
         [GtkChild]
         private unowned Gtk.Button request_button;
         [GtkChild]

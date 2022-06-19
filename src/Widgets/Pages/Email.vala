@@ -15,9 +15,9 @@ namespace XdpVala {
         [GtkChild]
         private unowned AddressList bcc_list;
         [GtkChild]
-        private unowned Gtk.Entry subject_entry;
+        private unowned Adw.EntryRow subject_entry;
         [GtkChild]
-        private unowned Gtk.Entry body_entry;
+        private unowned Adw.EntryRow body_entry;
         [GtkChild]
         private unowned Gtk.Label result_label;
 

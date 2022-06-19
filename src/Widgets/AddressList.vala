@@ -8,37 +8,39 @@
 namespace XdpVala {
     public class AddressList : Adw.Bin {
         public Adw.PreferencesRow new_address_row { get; protected set; }
+        private Gtk.ListBox listbox = new Gtk.ListBox () {
+            selection_mode = NONE
+        };
 
         construct {
-            var listbox = new Gtk.ListBox () {
-                selection_mode = NONE,
-            };
             listbox.add_css_class ("content");
             child = listbox;
-            add_new_address ();
+
+            new_address_row = new Adw.PreferencesRow () {
+                child = new Gtk.Label ("Add a new Address") {
+                    margin_top = 12,
+                    margin_bottom = 12
+                }
+            };
+            listbox.append (new_address_row);
 
             listbox.row_activated.connect ((row) => {
                 if (row != new_address_row)
                     return;
                 add_new_address ();
             });
+
+            add_new_address ();
         }
 
         private void add_new_address () {
-            var listbox = child as Gtk.ListBox;
-            if (new_address_row == null) {
-                new_address_row = new Adw.PreferencesRow () {
-                    child = new Gtk.Label ("Add a new Address") {
-                        margin_top = 12,
-                        margin_bottom = 12
-                    }
-                };
-            }
-            else {
-                listbox.remove (new_address_row);
-            }
+            listbox.remove (new_address_row);
 
-            listbox.append (new EmailRow ());
+            var n_row = new Adw.EntryRow () {
+                title = "Email"
+            };
+            n_row.grab_focus ();
+            listbox.append (n_row);
 
             listbox.append (new_address_row);
         }
@@ -55,16 +57,16 @@ namespace XdpVala {
                 if (current_row == new_address_row)
                     break;
 
-                var e_row = current_row as EmailRow;
-                string email = e_row.email_entry.text;
+                var e_row = current_row as Adw.EntryRow;
+                string email = e_row.text;
 
                 if (email == "") {
                     warning ("Row %i is empty", index);
-                    e_row.email_entry.add_css_class ("error");
+                    e_row.add_css_class ("error");
                 }
                 else {
                     emails = emails + email;
-                    e_row.email_entry.remove_css_class ("error");
+                    e_row.remove_css_class ("error");
                 }
 
                 index++;

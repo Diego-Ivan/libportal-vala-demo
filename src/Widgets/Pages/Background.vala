@@ -9,7 +9,7 @@ namespace XdpVala {
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Background.ui")]
     public class Pages.Background : Page {
         [GtkChild]
-        private unowned Gtk.Entry reason_entry;
+        private unowned Adw.EntryRow reason_entry;
         [GtkChild]
         private unowned Gtk.Switch autostart_switch;
         [GtkChild]

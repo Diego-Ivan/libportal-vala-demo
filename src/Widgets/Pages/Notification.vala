@@ -9,11 +9,11 @@ namespace XdpVala {
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Notification.ui")]
     public class Pages.Notification : Page {
         [GtkChild]
-        private unowned Gtk.Entry title_entry;
+        private unowned Adw.EntryRow title_entry;
         [GtkChild]
-        private unowned Gtk.Entry body_entry;
+        private unowned Adw.EntryRow body_entry;
         [GtkChild]
-        private unowned Gtk.Entry id_entry;
+        private unowned Adw.EntryRow id_entry;
         [GtkChild]
         private unowned Gtk.Label result_label;
         [GtkChild]

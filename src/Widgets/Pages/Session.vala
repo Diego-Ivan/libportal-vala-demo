@@ -26,7 +26,7 @@ namespace XdpVala {
         [GtkChild]
         private unowned Gtk.CheckButton idle_check;
         [GtkChild]
-        private unowned Gtk.Entry reason_entry;
+        private unowned Adw.EntryRow reason_entry;
 
         [GtkChild]
         private unowned Adw.PreferencesGroup results_group;
