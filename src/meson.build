@@ -11,7 +11,7 @@ libportal_vala_sample_code_sources = files (
   'Widgets/Page.vala',
 
   'Widgets/Pages/Account.vala',
-  # 'Widgets/Pages/Background.vala',
+  'Widgets/Pages/Background.vala',
   # 'Widgets/Pages/Camera.vala',
   # 'Widgets/Pages/ColorPicker.vala',
   # 'Widgets/Pages/Email.vala',

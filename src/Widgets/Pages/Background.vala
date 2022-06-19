@@ -6,31 +6,22 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Background.ui")]
     public class Pages.Background : Page {
-        private Gtk.Entry reason_entry;
-        private Gtk.Switch autostart_switch;
-        private Gtk.Button request_button;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned Gtk.Entry reason_entry;
+        [GtkChild]
+        private unowned Gtk.Switch autostart_switch;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
+
         public Background (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Background"
+                portal: portal_
             );
         }
 
-        construct {
-            title = "Background";
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            request_button.clicked.connect (request_button_clicked);
-        }
-
+        [GtkCallback]
         public void request_button_clicked () {
             if (reason_entry.text == "") {
                 reason_entry.add_css_class ("error");
@@ -71,7 +62,7 @@ namespace XdpVala {
                 success = portal.request_background.end (res);
 
                 if (success) {
-                    result_label.label = "Request succesful";
+                    result_label.label = "Request successful";
                     result_label.add_css_class ("success");
                 }
                 else {
@@ -90,22 +81,6 @@ namespace XdpVala {
                 critical (e.message);
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Background.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                reason_entry = builder.get_object ("reason_entry") as Gtk.Entry;
-                autostart_switch = builder.get_object ("autostart_switch") as Gtk.Switch;
-                request_button = builder.get_object ("request_button") as Gtk.Button;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }
