@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.pick_color.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/ColorPicker.ui")]
     public class Pages.ColorPicker : Page {
         [GtkChild]
@@ -29,11 +30,12 @@ namespace XdpVala {
 
         [GtkCallback]
         private void on_pick_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.pick_color.begin (
-                parent,
-                null,
-                callback
+                parent, // Xdp.Parent
+                null, // Cancellable, we're using none
+                callback // Callback for the function in which we will receive the result of our petition
             );
         }
 
@@ -41,16 +43,17 @@ namespace XdpVala {
             GLib.Variant colors;
 
             try {
-                colors = portal.pick_color.end (res);
+                colors = portal.pick_color.end (res); // Obtain the Variant with the RGB colors
                 double red = 0;
                 double green = 0;
                 double blue = 0;
 
-                GLib.VariantIter iter = colors.iterator ();
-                iter.next ("d", &red);
-                iter.next ("d", &green);
-                iter.next ("d", &blue);
+                GLib.VariantIter iter = colors.iterator (); // Iterate over the Variant
+                iter.next ("d", &red); // Obtain red
+                iter.next ("d", &green); // Obtain green
+                iter.next ("d", &blue); // Obtain Blue
 
+                // Display the colors obtain in screen.
                 color_viewer.color = {
                     (float) red,
                     (float) green,
