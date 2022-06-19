@@ -35,7 +35,7 @@ namespace XdpVala {
 		        new Pages.Screenshot (portal),
 		        new Pages.Session (portal),
 		        new Pages.TrashFile (portal),
-		    //     new Pages.Wallpaper (portal),
+		        new Pages.Wallpaper (portal),
 		    };
 
 		    foreach (var page in pages) {

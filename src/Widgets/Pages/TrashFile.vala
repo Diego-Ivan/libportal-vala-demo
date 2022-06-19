@@ -16,8 +16,7 @@ namespace XdpVala {
 
         public TrashFile (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Trash File"
+                portal: portal_
             );
         }
 
