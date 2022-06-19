@@ -38,8 +38,7 @@ namespace XdpVala {
 
         public Screencast (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Screencast"
+                portal: portal_
             );
         }
         construct {

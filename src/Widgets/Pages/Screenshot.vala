@@ -6,32 +6,24 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Screenshot.ui")]
     public class Pages.Screenshot : Page {
-        private Gtk.Switch interactive_switch;
-        private Gtk.Label result_label;
-        private Gtk.Image screenshot;
-        private Gtk.Button capture_button;
-        private Adw.PreferencesGroup results_group;
+        [GtkChild]
+        private unowned Gtk.Switch interactive_switch;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
+        [GtkChild]
+        private unowned Gtk.Image screenshot;
+        [GtkChild]
+        private unowned Adw.PreferencesGroup results_group;
 
         public Screenshot (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Screenshot"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            capture_button.clicked.connect (on_capture_button_clicked);
-        }
-
+        [GtkCallback]
         private void on_capture_button_clicked () {
             bool interactive = interactive_switch.active;
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
@@ -67,23 +59,6 @@ namespace XdpVala {
                 critical (e.message);
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Screenshot.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                interactive_switch = builder.get_object ("interactive_switch") as Gtk.Switch;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-                screenshot = builder.get_object ("screenshot") as Gtk.Image;
-                results_group = builder.get_object ("results_group") as Adw.PreferencesGroup;
-                capture_button = builder.get_object ("capture_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }
