@@ -1,81 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesFileChooser" parent="XdpValaPage">
+    <property name="title">File Chooser</property>
     <property name="icon-name">drawer-symbolic</property>
     <property name="description">File and directory operations</property>
-    <style>
-      <class name="compact"/>
-    </style>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-    <property name="child">
-
-      <object class="AdwClamp">
-        <property name="child">
+        <child>
           <object class="GtkBox">
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+            <property name="spacing">10</property>
 
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <property name="spacing">10</property>
+              <object class="AdwPreferencesGroup">
+                <property name="title">Open a file</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title">Open a file</property>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Dialog Title</property>
-                        <property name="subtitle">Title of the file chooser dialog</property>
-                        <child type="suffix">
-                          <object class="GtkEntry" id="open_title_entry">
-                            <property name="valign">center</property>
-                            <property name="placeholder-text">Choose a file</property>
-                          </object>
-                        </child>
+                  <object class="AdwActionRow">
+                    <property name="title">Dialog Title</property>
+                    <property name="subtitle">Title of the file chooser dialog</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="open_title_entry">
+                        <property name="valign">center</property>
+                        <property name="placeholder-text">Choose a file</property>
                       </object>
                     </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Multiple</property>
-                        <child type="suffix">
-                          <object class="GtkSwitch" id="multiple_switch">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkButton" id="open_button">
-                    <property name="halign">start</property>
-                    <property name="label">Open</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup" id="response_group">
-                    <property name="title">Response</property>
-                    <property name="visible">false</property>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <child type="suffix">
-                          <object class="GtkLabel" id="open_response">
-                            <property name="hexpand">true</property>
-                            <property name="ellipsize">start</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="caption"/>
-                              <class name="monospace"/>
-                            </style>
-                          </object>
-                        </child>
+                  <object class="AdwActionRow">
+                    <property name="title">Multiple</property>
+                    <child type="suffix">
+                      <object class="GtkSwitch" id="multiple_switch">
+                        <property name="valign">center</property>
                       </object>
                     </child>
                   </object>
@@ -85,55 +46,87 @@
             </child>
 
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <property name="spacing">10</property>
+              <object class="GtkButton" id="open_button">
+                <property name="halign">start</property>
+                <property name="label">Open</property>
+                <signal name="clicked" handler="on_open_button_clicked" swapped="no"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup" id="response_group">
+                <property name="title">Response</property>
+                <property name="visible">false</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title">Save a file</property>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Dialog Title</property>
-                        <child type="suffix">
-                          <object class="GtkEntry" id="save_title_entry">
-                            <property name="valign">center</property>
-                            <property name="placeholder-text">Save a file</property>
-                          </object>
-                        </child>
+                  <object class="AdwActionRow">
+                    <child type="suffix">
+                      <object class="GtkLabel" id="open_response">
+                        <property name="hexpand">true</property>
+                        <property name="ellipsize">start</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="caption"/>
+                          <class name="monospace"/>
+                        </style>
                       </object>
                     </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Text to write</property>
-                        <child type="suffix">
-                          <object class="GtkEntry" id="text_entry">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
                   </object>
                 </child>
-
-                <child>
-                  <object class="GtkButton" id="save_button">
-                    <property name="label">Save</property>
-                    <property name="halign">start</property>
-                  </object>
-                </child>
-
               </object>
             </child>
 
           </object>
-        </property>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">10</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title">Save a file</property>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Dialog Title</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="save_title_entry">
+                        <property name="valign">center</property>
+                        <property name="placeholder-text">Save a file</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Text to write</property>
+                    <child type="suffix">
+                      <object class="GtkEntry" id="text_entry">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="save_button">
+                <property name="label">Save</property>
+                <property name="halign">start</property>
+                <signal name="clicked" handler="on_save_button_clicked" swapped="no"/>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
+    </child>
 
-    </property>
-
-  </object>
+  </template>
 </interface>
