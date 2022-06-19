@@ -30,6 +30,7 @@
                 <property name="child">
                   <object class="GtkButton" id="update_button">
                     <property name="label">Update status</property>
+                    <signal name="clicked" handler="on_update_button_clicked" swapped="no"/>
                     <style>
                       <class name="flat"/>
                     </style>
@@ -57,6 +58,7 @@
               <object class="GtkButton" id="start_button">
                 <property name="label">Start session</property>
                 <property name="halign">start</property>
+                <signal name="clicked" handler="on_start_button_clicked" swapped="no"/>
               </object>
             </child>
 
@@ -65,6 +67,7 @@
                 <property name="label">Close session</property>
                 <property name="halign">end</property>
                 <property name="hexpand">true</property>
+                <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
                 <style>
                   <class name="destructive-action"/>
                 </style>

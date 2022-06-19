@@ -6,12 +6,11 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.access_camera.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Camera.ui")]
     public class Pages.Camera : Page {
         [GtkChild]
         private unowned Gtk.Label status_label;
-        [GtkChild]
-        private unowned Gtk.Button update_button;
         [GtkChild]
         private unowned Gtk.Button start_button;
         [GtkChild]
@@ -27,7 +26,7 @@ namespace XdpVala {
         }
 
         construct {
-            update_camera_status ();
+            on_update_button_clicked ();
 
             bind_property ("camera-available",
                 start_button, "sensitive",
@@ -38,13 +37,12 @@ namespace XdpVala {
                 close_button, "sensitive",
                 SYNC_CREATE
             );
-
-            update_button.clicked.connect (update_camera_status);
-            start_button.clicked.connect (on_start_button_clicked);
         }
 
-        private void update_camera_status () {
-            camera_available = portal.is_camera_present ();
+        [GtkCallback]
+        private void on_update_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Portal.is_camera_present.html
+            camera_available = portal.is_camera_present (); // Checking camera availability
             if (camera_available) {
                 status_label.add_css_class ("success");
                 status_label.label = "Available";
@@ -55,16 +53,19 @@ namespace XdpVala {
             }
         }
 
+        [GtkCallback]
         private void on_start_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.access_camera.begin (
-                parent,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                NONE, // Flags for the request. Currently, NONE is the only value
+                null, // Cancellable. We are using none
+                callback // Callback for the function, in which we will receive the results of the petition.
             );
         }
 
+        [GtkCallback]
         private void on_close_button_clicked () {
             session_active = false;
         }
@@ -72,6 +73,8 @@ namespace XdpVala {
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
                 session_active = portal.access_camera.end (res);
+                // If the response you obtained was positive, now you can call Xdp.Portal.open_pipewire_remote_for_camera ()
+                // https://valadoc.org/libportal/Xdp.Portal.open_pipewire_remote_for_camera.html
             }
             catch (Error e) {
                 critical (e.message);
