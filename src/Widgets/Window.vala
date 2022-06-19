@@ -21,8 +21,8 @@ namespace XdpVala {
 		    portal = new Xdp.Portal ();
 
 		    pages = {
-		        new Pages.Welcome (portal)
-		    //     new Pages.Account (portal),
+		        new Pages.Welcome (portal),
+		        new Pages.Account (portal),
 		    //     new Pages.Background (portal),
 		    //     new Pages.Camera (portal),
 		    //     new Pages.ColorPicker (portal),
