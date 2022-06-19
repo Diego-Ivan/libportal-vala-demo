@@ -1,72 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesOpenURI" parent="XdpValaPage">
+    <property name="title">Open URI</property>
     <property name="description">Open a URI using an external handler</property>
     <property name="icon-name">external-link-symbolic</property>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+        <child>
+          <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">URI</property>
-                    <property name="subtitle">Requires https:// prefix</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="uri_entry">
-                        <property name="valign">center</property>
-                        <property name="text">https://github.com/Diego-Ivan</property>
-                      </object>
-                    </child>
+              <object class="AdwActionRow">
+                <property name="title">URI</property>
+                <property name="subtitle">Requires https:// prefix</property>
+                <child type="suffix">
+                  <object class="GtkEntry" id="uri_entry">
+                    <property name="valign">center</property>
+                    <property name="text">https://github.com/Diego-Ivan</property>
                   </object>
                 </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Ask</property>
-                    <property name="subtitle">Choose a web browser to open the URI. If disabled, the default browser will be used</property>
-                    <child type="suffix">
-                      <object class="GtkSwitch" id="ask_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Writable</property>
-                    <property name="subtitle">Whether the file used is writable or not</property>
-                    <child type="suffix">
-                      <object class="GtkSwitch" id="writable_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
               </object>
             </child>
 
             <child>
-              <object class="GtkButton" id="open_button">
-                <property name="label">Open URI</property>
-                <property name="halign">start</property>
+              <object class="AdwActionRow">
+                <property name="title">Ask</property>
+                <property name="subtitle">Choose a web browser to open the URI. If disabled, the default browser will be used</property>
+                <child type="suffix">
+                  <object class="GtkSwitch" id="ask_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Writable</property>
+                <property name="subtitle">Whether the file used is writable or not</property>
+                <child type="suffix">
+                  <object class="GtkSwitch" id="writable_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
               </object>
             </child>
 
           </object>
+        </child>
 
-        </property>
+        <child>
+          <object class="GtkButton" id="open_button">
+            <property name="label">Open URI</property>
+            <property name="halign">start</property>
+            <signal name="clicked" handler="on_open_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>
