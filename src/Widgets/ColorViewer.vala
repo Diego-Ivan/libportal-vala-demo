@@ -27,6 +27,10 @@ namespace XdpVala {
             );
         }
 
+        class construct {
+            set_css_name ("colorviewer");
+        }
+
         construct {
             css_provider = new Gtk.CssProvider ();
             get_style_context ().add_provider (
