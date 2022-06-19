@@ -6,34 +6,28 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Email.ui")]
     public class Pages.Email : Page {
-        private AddressList address_list;
-        private AddressList cc_list;
-        private AddressList bcc_list;
-        private Gtk.Button send_button;
-        private Gtk.Entry subject_entry;
-        private Gtk.Entry body_entry;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned AddressList address_list;
+        [GtkChild]
+        private unowned AddressList cc_list;
+        [GtkChild]
+        private unowned AddressList bcc_list;
+        [GtkChild]
+        private unowned Gtk.Entry subject_entry;
+        [GtkChild]
+        private unowned Gtk.Entry body_entry;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
 
         public Email (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Email"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            send_button.clicked.connect (on_send_button_clicked);
-        }
-
+        [GtkCallback]
         private void on_send_button_clicked () {
             string subject = subject_entry.text;
             string body = body_entry.text;
@@ -85,7 +79,7 @@ namespace XdpVala {
                     result_label.add_css_class ("success");
                 }
                 else {
-                    result_label.label = "Request unsucessful";
+                    result_label.label = "Request unsuccessful";
                     result_label.add_css_class ("warning");
                 }
             }
@@ -93,34 +87,6 @@ namespace XdpVala {
                 critical (e.message);
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Email.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                var address_group = builder.get_object ("address_group") as Adw.PreferencesGroup;
-                var cc_group = builder.get_object ("cc_group") as Adw.PreferencesGroup;
-                var bcc_group = builder.get_object ("bcc_group") as Adw.PreferencesGroup;
-
-                send_button = builder.get_object ("send_button") as Gtk.Button;
-                subject_entry = builder.get_object ("subject_entry") as Gtk.Entry;
-                body_entry = builder.get_object ("body_entry") as Gtk.Entry;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-
-                address_list = new AddressList ();
-                cc_list = new AddressList ();
-                bcc_list = new AddressList ();
-
-                address_group.add (address_list);
-                cc_group.add (cc_list);
-                bcc_group.add (bcc_list);
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

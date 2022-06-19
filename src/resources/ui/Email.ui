@@ -1,86 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesEmail" parent="XdpValaPage">
     <property name="title">Email</property>
     <property name="description">Compose an email to open in your local email client</property>
     <property name="icon-name">mail-symbolic</property>
-    <style>
-      <class name="compact"/>
-    </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Subject (Required)</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="subject_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
+              <object class="AdwActionRow">
+                <property name="title">Subject (Required)</property>
+                <child type="suffix">
+                  <object class="GtkEntry" id="subject_entry">
+                    <property name="valign">center</property>
                   </object>
                 </child>
+              </object>
+            </child>
 
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Body</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="body_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Body</property>
+                <child type="suffix">
+                  <object class="GtkEntry" id="body_entry">
+                    <property name="valign">center</property>
                   </object>
                 </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup" id="address_group">
-                <property name="title">Addresses</property>
-                <property name="description">At least one is required</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup" id="cc_group">
-                <property name="title">CC</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup" id="bcc_group">
-                <property name="title">BCC</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="send_button">
-                <property name="halign">start</property>
-                <property name="label">Send</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="result_label">
-                <property name="xalign">0</property>
-                <property name="halign">center</property>
-                <property name="visible">false</property>
               </object>
             </child>
 
           </object>
-        </property>
-      </object>
-    </property>
+        </child>
 
-  </object>
+        <child>
+          <object class="AdwPreferencesGroup" id="address_group">
+            <property name="title">Addresses</property>
+            <property name="description">At least one is required</property>
+            <child>
+              <object class="XdpValaAddressList" id="address_list"></object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="cc_group">
+            <property name="title">CC</property>
+            <child>
+              <object class="XdpValaAddressList" id="cc_list"></object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="bcc_group">
+            <property name="title">BCC</property>
+            <child>
+              <object class="XdpValaAddressList" id="bcc_list"></object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton" id="send_button">
+            <property name="halign">start</property>
+            <property name="label">Send</property>
+            <signal name="clicked" handler="on_send_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="result_label">
+            <property name="xalign">0</property>
+            <property name="halign">center</property>
+            <property name="visible">false</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
 </interface>
