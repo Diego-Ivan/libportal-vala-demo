@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.location_monitor_start.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Location.ui")]
     public class Pages.Location : Page {
         [GtkChild]
@@ -109,18 +110,22 @@ namespace XdpVala {
                     break;
             }
 
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
+
+            // Start monitoring location
             portal.location_monitor_start.begin (
-                parent,
-                (uint) distance_entry.value,
-                (uint) time_entry.value,
-                accuracy,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                (uint) distance_entry.value, // Distance accuracy
+                (uint) time_entry.value, // Time accuracy
+                accuracy, // Accuracy flags: NONE, EXACT, STREET, NEIGHBORHOOD, CITY or COUNTRY
+                NONE, // Location Flags. Currently, the only value is NONE
+                null, // Cancellable, setting none
+                callback // Function callback
             );
         }
 
+        // This function will be called every time the location gets updated
         private void on_location_updated (
             double latitude,
             double longitude,
@@ -142,7 +147,7 @@ namespace XdpVala {
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
-                bool result = portal.location_monitor_start.end (res);
+                bool result = portal.location_monitor_start.end (res); // Whether the user gave access to the information
                 if (result) {
                     result_box.visible = true;
                     monitor_active = true;
@@ -164,7 +169,7 @@ namespace XdpVala {
 
         [GtkCallback]
         private void on_stop_button_clicked () {
-            portal.location_monitor_stop ();
+            portal.location_monitor_stop (); // Stop monitoring location
             monitor_active = false;
         }
     }
