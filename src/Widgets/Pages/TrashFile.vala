@@ -6,9 +6,12 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/TrashFile.ui")]
     public class Pages.TrashFile : Page {
-        private Gtk.Button open_button;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned Gtk.Button open_button;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
         private string path;
 
         public TrashFile (Xdp.Portal portal_) {
@@ -19,13 +22,6 @@ namespace XdpVala {
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             open_button.clicked.connect (on_open_button_clicked);
         }
 
@@ -75,7 +71,7 @@ namespace XdpVala {
                 result = portal.trash_file.end (res);
 
                 if (result) {
-                    result_label.label = "File was succesfully trashed";
+                    result_label.label = "File was successfully trashed";
                     result_label.add_css_class ("success");
                 }
                 else {
@@ -89,21 +85,5 @@ namespace XdpVala {
                 result_label.add_css_class ("error");
             }
         }
-
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/TrashFile.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                open_button = builder.get_object ("open_button") as Gtk.Button;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
-        }
-
     }
 }

@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesTrashFile" parent="XdpValaPage">
+    <property name="title">Trash File</property>
     <property name="description">Send a file to the trash can</property>
     <property name="icon-name">user-trash-symbolic</property>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
-
-            <child>
-              <object class="GtkButton" id="open_button">
-                <property name="label">Choose a file</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="result_label">
-                <property name="visible">false</property>
-              </object>
-            </child>
-
+        <child>
+          <object class="GtkButton" id="open_button">
+            <property name="label">Choose a file</property>
           </object>
+        </child>
 
-        </property>
+        <child>
+          <object class="GtkLabel" id="result_label">
+            <property name="visible">false</property>
+          </object>
+        </child>
+
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>
