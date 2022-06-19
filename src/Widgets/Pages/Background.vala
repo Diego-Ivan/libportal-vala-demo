@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.request_background.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Background.ui")]
     public class Pages.Background : Page {
         [GtkChild]
@@ -31,27 +32,19 @@ namespace XdpVala {
                 reason_entry.remove_css_class ("error");
             }
 
-            Xdp.BackgroundFlags flags;
-
-            if (autostart_switch.active) {
-                flags = AUTOSTART;
-            }
-            else {
-                flags = NONE;
-            }
-
-            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
+            // https://valadoc.org/libportal/Xdp.Parent.html
+            Xdp.Parent parent = Xdp.parent_new_gtk ((Gtk.Window) get_native ());
 
             GLib.GenericArray<weak string> array = new GLib.GenericArray<weak string>();
-            array.add ("/bin/true");
+            array.add ("/bin/true"); // /bin/true will be autostarted
 
             portal.request_background.begin (
-                parent,
-                reason_entry.text,
-                array,
-                flags,
-                null,
-                callback
+                parent, // Xdp.Parent
+                reason_entry.text, // Reason to ask for running in the background. Displayed to the user
+                array, // Commands that will autostart
+                autostart_switch.active ? Xdp.BackgroundFlags.AUTOSTART : Xdp.BackgroundFlags.NONE, // Flags for the portal. Whether the application will autostart too or will be just running in the background
+                null, // Cancellable. We are using none
+                callback // Callback of the portal, in which we will receive the results of the petition
             );
         }
 
@@ -59,7 +52,7 @@ namespace XdpVala {
             try {
                 bool? success;
                 result_label.visible = true;
-                success = portal.request_background.end (res);
+                success = portal.request_background.end (res); // Receive if the request was successful or not
 
                 if (success) {
                     result_label.label = "Request successful";
@@ -78,7 +71,7 @@ namespace XdpVala {
                 }
             }
             catch (Error e) {
-                critical (e.message);
+                critical (e.message); // Handle error
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
             }
