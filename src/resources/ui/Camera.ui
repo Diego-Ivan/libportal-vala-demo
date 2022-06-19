@@ -1,89 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesCamera" parent="XdpValaPage">
+    <property name="title">Camera</property>
     <property name="description">Secure access to your camera through a Portal</property>
     <property name="icon-name">camera-photo-symbolic</property>
-    <style>
-      <class name="compact"/>
-    </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
 
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Camera status</property>
-                    <child type="suffix">
-                      <object class="GtkLabel" id="status_label">
-                      <style>
-                        <class name="dim-label"/>
-                      </style>
-                      </object>
-                    </child>
+              <object class="AdwActionRow">
+                <property name="title">Camera status</property>
+                <child type="suffix">
+                  <object class="GtkLabel" id="status_label">
+                  <style>
+                    <class name="dim-label"/>
+                  </style>
                   </object>
                 </child>
-
-                <child>
-                  <object class="AdwPreferencesRow">
-                    <property name="child">
-                      <object class="GtkButton" id="update_button">
-                        <property name="label">Update status</property>
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                      </object>
-                    </property>
-                  </object>
-                </child>
-
               </object>
             </child>
 
             <child>
-              <object class="GtkSeparator">
-                <style>
-                  <class name="spacer"/>
-                </style>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-
-                <child>
-                  <object class="GtkButton" id="start_button">
-                    <property name="label">Start session</property>
-                    <property name="halign">start</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkButton" id="close_button">
-                    <property name="label">Close session</property>
-                    <property name="halign">end</property>
-                    <property name="hexpand">true</property>
+              <object class="AdwPreferencesRow">
+                <property name="child">
+                  <object class="GtkButton" id="update_button">
+                    <property name="label">Update status</property>
                     <style>
-                      <class name="destructive-action"/>
+                      <class name="flat"/>
                     </style>
                   </object>
-                </child>
-
+                </property>
               </object>
             </child>
 
           </object>
+        </child>
 
-        </property>
+        <child>
+          <object class="GtkSeparator">
+            <style>
+              <class name="spacer"/>
+            </style>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+
+            <child>
+              <object class="GtkButton" id="start_button">
+                <property name="label">Start session</property>
+                <property name="halign">start</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="close_button">
+                <property name="label">Close session</property>
+                <property name="halign">end</property>
+                <property name="hexpand">true</property>
+                <style>
+                  <class name="destructive-action"/>
+                </style>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>

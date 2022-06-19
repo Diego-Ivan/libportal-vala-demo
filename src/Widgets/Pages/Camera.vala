@@ -6,29 +6,27 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Camera.ui")]
     public class Pages.Camera : Page {
-        private Gtk.Label status_label;
-        private Gtk.Button update_button;
-        private Gtk.Button start_button;
-        private Gtk.Button close_button;
+        [GtkChild]
+        private unowned Gtk.Label status_label;
+        [GtkChild]
+        private unowned Gtk.Button update_button;
+        [GtkChild]
+        private unowned Gtk.Button start_button;
+        [GtkChild]
+        private unowned Gtk.Button close_button;
 
         public bool camera_available { get; private set; }
         public bool session_active { get; private set; default = false; }
 
         public Camera (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Camera"
+                portal: portal_
             );
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
             update_camera_status ();
 
             bind_property ("camera-available",
@@ -77,22 +75,6 @@ namespace XdpVala {
             }
             catch (Error e) {
                 critical (e.message);
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Camera.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                status_label = builder.get_object ("status_label") as Gtk.Label;
-                update_button = builder.get_object ("update_button") as Gtk.Button;
-                start_button = builder.get_object ("start_button") as Gtk.Button;
-                close_button = builder.get_object ("close_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }
