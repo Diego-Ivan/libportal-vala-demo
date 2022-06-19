@@ -28,7 +28,7 @@ namespace XdpVala {
 		        new Pages.ColorPicker (portal),
 		        new Pages.Email (portal),
 		        new Pages.FileChooser (portal),
-		    //     new Pages.Location (portal),
+		        new Pages.Location (portal),
 		    //     new Pages.OpenURI (portal),
 		    //     new Pages.Notification (portal),
 		    //     new Pages.Screencast (portal),

@@ -6,23 +6,43 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Location.ui")]
     public class Pages.Location : Page {
-        private Shumate.Map map_location;
-        private Gtk.SpinButton distance_entry;
-        private Gtk.SpinButton time_entry;
-        private Adw.ComboRow accuracy_row;
+        [GtkChild]
+        private unowned Shumate.SimpleMap simple_map;
+        private Shumate.Map map_location {
+            get {
+                return simple_map.map;
+            }
+        }
 
-        private Gtk.Button start_button;
-        private Gtk.Button stop_button;
+        [GtkChild]
+        private unowned Gtk.SpinButton distance_entry;
+        [GtkChild]
+        private unowned Gtk.SpinButton time_entry;
+        [GtkChild]
+        private unowned Adw.ComboRow accuracy_row;
 
-        private Gtk.Box result_box;
-        private Gtk.Label lat_label;
-        private Gtk.Label longi_label;
-        private Gtk.Label alti_label;
-        private Gtk.Label acc_label;
-        private Gtk.Label speed_label;
-        private Gtk.Label head_label;
+        [GtkChild]
+        private unowned Gtk.Button start_button;
+        [GtkChild]
+        private unowned Gtk.Button stop_button;
 
+        [GtkChild]
+        private unowned Gtk.Box result_box;
+        [GtkChild]
+        private unowned Gtk.Label lat_label;
+        [GtkChild]
+        private unowned Gtk.Label longi_label;
+        [GtkChild]
+        private unowned Gtk.Label alti_label;
+        [GtkChild]
+        private unowned Gtk.Label acc_label;
+        [GtkChild]
+        private unowned Gtk.Label speed_label;
+        [GtkChild]
+        private unowned Gtk.Label head_label;
+        [GtkChild]
         private Gtk.Label error_label;
 
         public bool monitor_active { get; private set; }
@@ -35,13 +55,6 @@ namespace XdpVala {
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             bind_property ("monitor-active",
                 start_button, "sensitive",
                 SYNC_CREATE | INVERT_BOOLEAN
@@ -52,11 +65,15 @@ namespace XdpVala {
                 SYNC_CREATE
             );
 
-            start_button.clicked.connect (on_start_button_clicked);
-            stop_button.clicked.connect (on_stop_button_clicked);
+            var registry = new Shumate.MapSourceRegistry.with_defaults ();
+            Shumate.MapSource source = registry.get_by_id (Shumate.MAP_SOURCE_OSM_MAPNIK);
+            assert_nonnull (source);
+            simple_map.map_source = source;
+
             portal.location_updated.connect (on_location_updated);
         }
 
+        [GtkCallback]
         private void on_start_button_clicked () {
             Xdp.LocationAccuracy accuracy = NONE;
             var model = accuracy_row.model as Gtk.StringList;
@@ -144,56 +161,9 @@ namespace XdpVala {
             }
         }
 
+        [GtkCallback]
         private void on_stop_button_clicked () {
             portal.location_monitor_stop ();
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Location.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                distance_entry = builder.get_object ("distance_entry") as Gtk.SpinButton;
-                time_entry = builder.get_object ("time_entry") as Gtk.SpinButton;
-                accuracy_row = builder.get_object ("accuracy_row") as Adw.ComboRow;
-
-                start_button = builder.get_object ("start_button") as Gtk.Button;
-                stop_button = builder.get_object ("stop_button") as Gtk.Button;
-
-                result_box = builder.get_object ("result_box") as Gtk.Box;
-                lat_label = builder.get_object ("lat_label") as Gtk.Label;
-                longi_label = builder.get_object ("longi_label") as Gtk.Label;
-                alti_label = builder.get_object ("alti_label") as Gtk.Label;
-                acc_label = builder.get_object ("acc_label") as Gtk.Label;
-                speed_label = builder.get_object ("speed_label") as Gtk.Label;
-                head_label = builder.get_object ("head_label") as Gtk.Label;
-
-                error_label = builder.get_object ("error_label") as Gtk.Label;
-
-                map_location = new Shumate.Map () {
-                    height_request = 300
-                };
-
-                var registry = new Shumate.MapSourceRegistry.with_defaults ();
-                var source = registry.get_by_id (Shumate.MAP_SOURCE_OSM_MAPNIK);
-
-                var view_port = map_location.viewport;
-                var layer = new Shumate.MapLayer (source, view_port);
-                map_location.add_layer (layer);
-
-                map_location.set_map_source (source);
-                view_port.reference_map_source = source;
-                view_port.zoom_level = 6;
-
-                var license = new Shumate.License ();
-                license.map = map_location;
-                result_box.prepend (license);
-                result_box.prepend (map_location);
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
         }
     }
 }

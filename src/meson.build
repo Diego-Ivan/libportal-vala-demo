@@ -16,7 +16,7 @@ libportal_vala_sample_code_sources = files (
   'Widgets/Pages/ColorPicker.vala',
   'Widgets/Pages/Email.vala',
   'Widgets/Pages/FileChooser.vala',
-  # 'Widgets/Pages/Location.vala',
+  'Widgets/Pages/Location.vala',
   # 'Widgets/Pages/Notification.vala',
   # 'Widgets/Pages/OpenURI.vala',
   # 'Widgets/Pages/Screencast.vala',
@@ -32,7 +32,7 @@ libportal_vala_sample_deps = [
   dependency('libadwaita-1'),
   dependency('libportal'),
   dependency('libportal-gtk4'),
-  dependency('shumate-0.0'),
+  dependency('shumate-1.0'),
 ]
 
 conf = configuration_data()
