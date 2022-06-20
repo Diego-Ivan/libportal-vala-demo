@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.set_wallpaper.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Wallpaper.ui")]
     public class Pages.Wallpaper : Page {
         [GtkChild]
@@ -72,13 +73,14 @@ namespace XdpVala {
                 if (res == Gtk.ResponseType.ACCEPT) {
                     image_path = filechooser.get_file ().get_uri ();
 
+                    // https://valadoc.org/libportal/Xdp.Parent.html
                     Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
                     portal.set_wallpaper.begin (
-                        parent,
-                        image_path,
-                        flags,
-                        null,
-                        callback
+                        parent, // Xdp.Parent
+                        image_path, // Path of the image that will be set as wasllpaper
+                        flags, // Flags of the petition, whether is should set as BACKGROUND, LOCKSCREEN, if it should display a PREVIEW or NONE
+                        null, // Cancellable, using none
+                        callback // Callback of the function, in which we will receive its result.
                     );
                 }
             });
@@ -93,6 +95,7 @@ namespace XdpVala {
             response_label.remove_css_class ("error");
 
             try {
+                // We will receive a boolean that will indicate if our petition was successful
                 result = portal.set_wallpaper.end (res);
 
                 if (result) {
