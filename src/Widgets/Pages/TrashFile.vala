@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.trash_file.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/TrashFile.ui")]
     public class Pages.TrashFile : Page {
         [GtkChild]
@@ -26,6 +27,7 @@ namespace XdpVala {
 
         private void on_open_button_clicked () {
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
+            // See the FileChooser.vala page to see more information on the OpenFile portal, in case you need it
             portal.open_file.begin (
                 parent,
                 "Select a file to trash",
@@ -48,10 +50,11 @@ namespace XdpVala {
                 if (files[0] != "") {
                     path = GLib.Filename.from_uri (files[0]);
 
+                    // Trash file petition
                     portal.trash_file.begin (
-                        path,
-                        null,
-                        callback
+                        path, // Path of the file selected
+                        null, // Cancellable, we're using none
+                        callback // Callback of the function
                     );
                 }
             }
@@ -67,6 +70,7 @@ namespace XdpVala {
             result_label.remove_css_class ("success");
 
             try {
+                // A boolean that will tell us if our request was successful
                 result = portal.trash_file.end (res);
 
                 if (result) {
