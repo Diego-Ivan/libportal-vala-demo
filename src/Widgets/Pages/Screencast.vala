@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.create_screencast_session.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Screencast.ui")]
     public class Pages.Screencast : Page {
         [GtkChild]
@@ -32,6 +33,8 @@ namespace XdpVala {
         private unowned Gtk.Button close_button;
 
         public bool screencast_active { get; private set; }
+
+        // https://valadoc.org/libportal/Xdp.Session.html
         public Xdp.Session session { get; private set; }
         private Xdp.OutputType output_types;
         private Xdp.CursorMode cursor_mode;
@@ -60,28 +63,23 @@ namespace XdpVala {
             status_label.remove_css_class ("error");
             status_label.remove_css_class ("success");
 
-            bool multiple = multi_switch.active;
-            Xdp.ScreencastFlags screencast_flags = multiple?
-                Xdp.ScreencastFlags.NONE :
-                Xdp.ScreencastFlags.MULTIPLE;
-
             if (!get_output_types ()) return;
             if (!get_cursor_mode ()) return;
 
             portal.create_screencast_session.begin (
-                output_types,
-                screencast_flags,
-                cursor_mode,
-                NONE,
-                null,
-                null,
-                callback
+                output_types, // Select the output types: MONITOR, VIRTUAL or WINDOW
+                multi_switch.active? Xdp.ScreencastFlags.MULTIPLE : Xdp.ScreencastFlags.NONE, // Whether the screencast allows MULTIPLE streams or not (NONE)
+                cursor_mode, // Whether the cursor is EMBEDDED, HIDDEN or sent as METADATA
+                NONE, // Whether the screencast should PERSIST, should be TRANSIENT, or NONE (do not persist)
+                null, // Restore token. If a screencast configuration was made by the user, the token given should be put here to not show the dialog and immediately apply configurations
+                null, // Cancellable. We're using none
+                callback // Callback of the function in which we will receive the result of our petition
             );
         }
 
         [GtkCallback]
         private void on_close_button_clicked () {
-            session.close ();
+            session.close (); // Close the Screencast session
             screencast_active = false;
             status_label.label = "Session has been closed";
         }
@@ -142,13 +140,14 @@ namespace XdpVala {
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
-                session = portal.create_screencast_session.end (res);
+                session = portal.create_screencast_session.end (res); // A Xdp.Session will return to us if the petition was successful, and therefore we can start the screencast
 
+                // https://valadoc.org/libportal/Xdp.Parent.html
                 Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
                 session.start.begin (
-                    parent,
-                    null,
-                    session_callback
+                    parent, // Xdp.Parent
+                    null, // Cancellable, we're using none
+                    session_callback // Callback of the session, in which we will receive if the start of the screencast was successful
                 );
             }
             catch (Error e) {
@@ -160,11 +159,15 @@ namespace XdpVala {
 
         private void session_callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
-                screencast_active = session.start.end (res);
+                screencast_active = session.start.end (res); // A boolean if the Screencast request was successful
 
                 if (screencast_active) {
                     status_label.label = "Screencast is currently active";
                     status_label.add_css_class ("success");
+
+                    // Here, you can open a Pipewire remote using Xdp.Session.open_pipewire_remote () to display your screencast
+                    // Later, close your session with Xdp.Session.close ()
+                    // Check the Xdp.Session docs to find more useful methods https://valadoc.org/libportal/Xdp.Session.html
                 }
                 else {
                     status_label.label = "Screencast failed to start";
