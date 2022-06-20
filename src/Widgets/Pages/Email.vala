@@ -10,11 +10,11 @@ namespace XdpVala {
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Email.ui")]
     public class Pages.Email : Page {
         [GtkChild]
-        private unowned AddressList address_list;
+        private unowned EntryList address_list;
         [GtkChild]
-        private unowned AddressList cc_list;
+        private unowned EntryList cc_list;
         [GtkChild]
-        private unowned AddressList bcc_list;
+        private unowned EntryList bcc_list;
         [GtkChild]
         private unowned Adw.EntryRow subject_entry;
         [GtkChild]
@@ -45,15 +45,15 @@ namespace XdpVala {
             }
 
             // Obtain the adressess given by the user
-            string[] addresses = address_list.retrieve_emails ();
+            string[] addresses = address_list.retrieve_strings ();
             if (addresses.length == 0) {
                 result_label.label = "No addresses have been provided";
                 result_label.add_css_class ("warning");
                 return;
             }
 
-            string[] cc = cc_list.retrieve_emails (); // CC lists given by the user
-            string[] bcc = bcc_list.retrieve_emails (); // BCC lists given by the user
+            string[] cc = cc_list.retrieve_strings (); // CC lists given by the user
+            string[] bcc = bcc_list.retrieve_strings (); // BCC lists given by the user
 
             // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="XdpValaPagesSpawn" parent="XdpValaPage">
+    <property name="title">Spawn</property>
+    <property name="description">Run a process inside the sandbox</property>
+    <property name="icon-name">terminal-symbolic</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">12</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Command</property>
+            <child>
+              <object class="AdwEntryRow">
+                <property name="title">Command to run</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label">argv</property>
+                <property name="xalign">0</property>
+                <style>
+                  <class name="heading"/>
+                </style>
+              </object>
+            </child>
+
+            <child>
+              <object class="XdpValaEntryList">
+                <property name="new-row-caption">Add new argument</property>
+                <property name="row-title">Argument</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Environment Variables</property>
+            <child>
+              <object class="XdpValaDoubleEntryList">
+                <property name="start-placeholder">KEY</property>
+                <property name="end-placeholder">VALUE</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+</interface>

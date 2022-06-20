@@ -4,7 +4,8 @@ libportal_vala_sample_code_sources = files (
   'main.vala',
   'Application.vala',
 
-  'Widgets/AddressList.vala',
+  'Widgets/DoubleEntryList.vala',
+  'Widgets/EntryList.vala',
   'Widgets/ColorViewer.vala',
   'Widgets/EmailRow.vala',
   'Widgets/Window.vala',
@@ -22,6 +23,7 @@ libportal_vala_sample_code_sources = files (
   'Widgets/Pages/Screencast.vala',
   'Widgets/Pages/Screenshot.vala',
   'Widgets/Pages/Session.vala',
+  'Widgets/Pages/Spawn.vala',
   'Widgets/Pages/TrashFile.vala',
   'Widgets/Pages/Wallpaper.vala',
   'Widgets/Pages/Welcome.vala',
