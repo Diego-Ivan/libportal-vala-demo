@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesWelcome" parent="XdpValaPage">
     <property name="title">Welcome to the Libportal Vala Demo</property>
-
-
-    <property name="child">
-
-      <object class="AdwClamp">
-        <property name="child">
-          <object class="AdwPreferencesGroup">
-
-            <child>
-              <object class="AdwActionRow">
-                <property name="title">Sandbox Status</property>
-                <child type="suffix">
-                  <object class="GtkLabel" id="status_label">
-                  </object>
-                </child>
-              </object>
+    <property name="short-title">Welcome</property>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwActionRow">
+            <property name="title">Sandbox Status</property>
+            <child type="suffix">
+              <object class="GtkLabel" id="status_label"></object>
             </child>
-
-            <child>
-              <object class="AdwActionRow">
-                <property name="title">Sandbox</property>
-                <child type="suffix">
-                  <object class="GtkLabel" id="sandbox_label">
-                    <style>
-                      <class name="dim-label"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-
           </object>
-        </property>
-      </object>
-    </property>
+        </child>
 
-  </object>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title">Sandbox</property>
+            <child type="suffix">
+              <object class="GtkLabel" id="sandbox_label">
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
 </interface>

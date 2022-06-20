@@ -6,32 +6,26 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.open_uri.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/OpenURI.ui")]
     public class Pages.OpenURI : Page {
-        private Gtk.Entry uri_entry;
-        private Gtk.Switch ask_switch;
-        private Gtk.Switch writable_switch;
-        private Gtk.Button open_button;
+        [GtkChild]
+        private unowned Adw.EntryRow uri_entry;
+        [GtkChild]
+        private unowned Gtk.Switch ask_switch;
+        [GtkChild]
+        private unowned Gtk.Switch writable_switch;
 
         public OpenURI (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Open URI"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            open_button.clicked.connect (on_open_button_clicked);
-        }
-
+        [GtkCallback]
         private void on_open_button_clicked () {
             Xdp.OpenUriFlags flags = NONE;
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             if (ask_switch.active && writable_switch.active) {
@@ -45,11 +39,11 @@ namespace XdpVala {
             }
 
             portal.open_uri.begin (
-                parent,
-                uri_entry.text,
-                flags,
-                null,
-                callback
+                parent, // Xdp.Parent
+                uri_entry.text, // URI that will be open by the portal
+                flags, // Flags of the request, whether it should ASK preferred browser, whether the file is WRITABLE, both or NONE
+                null, // Cancellable, we're using NONE
+                callback // Callback in which we will receive the result of our petition
             );
         }
 
@@ -58,7 +52,7 @@ namespace XdpVala {
             uri_entry.remove_css_class ("error");
 
             try {
-                result = portal.open_uri.end (res);
+                result = portal.open_uri.end (res); // Boolean that indicates if the request was successful
 
                 if (!result) {
                     uri_entry.add_css_class ("error");
@@ -67,22 +61,6 @@ namespace XdpVala {
             catch (Error e) {
                 uri_entry.add_css_class ("error");
                 critical (e.message);
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/OpenURI.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                uri_entry = builder.get_object ("uri_entry") as Gtk.Entry;
-                ask_switch = builder.get_object ("ask_switch") as Gtk.Switch;
-                writable_switch = builder.get_object ("writable_switch") as Gtk.Switch;
-                open_button = builder.get_object ("open_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

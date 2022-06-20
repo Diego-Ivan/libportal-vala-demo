@@ -6,31 +6,23 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.request_background.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Background.ui")]
     public class Pages.Background : Page {
-        private Gtk.Entry reason_entry;
-        private Gtk.Switch autostart_switch;
-        private Gtk.Button request_button;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned Adw.EntryRow reason_entry;
+        [GtkChild]
+        private unowned Gtk.Switch autostart_switch;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
+
         public Background (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Background"
+                portal: portal_
             );
         }
 
-        construct {
-            title = "Background";
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            request_button.clicked.connect (request_button_clicked);
-        }
-
+        [GtkCallback]
         public void request_button_clicked () {
             if (reason_entry.text == "") {
                 reason_entry.add_css_class ("error");
@@ -40,27 +32,19 @@ namespace XdpVala {
                 reason_entry.remove_css_class ("error");
             }
 
-            Xdp.BackgroundFlags flags;
-
-            if (autostart_switch.active) {
-                flags = AUTOSTART;
-            }
-            else {
-                flags = NONE;
-            }
-
-            Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
+            // https://valadoc.org/libportal/Xdp.Parent.html
+            Xdp.Parent parent = Xdp.parent_new_gtk ((Gtk.Window) get_native ());
 
             GLib.GenericArray<weak string> array = new GLib.GenericArray<weak string>();
-            array.add ("/bin/true");
+            array.add ("/bin/true"); // /bin/true will be autostarted
 
             portal.request_background.begin (
-                parent,
-                reason_entry.text,
-                array,
-                flags,
-                null,
-                callback
+                parent, // Xdp.Parent
+                reason_entry.text, // Reason to ask for running in the background. Displayed to the user
+                array, // Commands that will autostart
+                autostart_switch.active ? Xdp.BackgroundFlags.AUTOSTART : Xdp.BackgroundFlags.NONE, // Flags for the portal. Whether the application will autostart too or will be just running in the background
+                null, // Cancellable. We are using none
+                callback // Callback of the portal, in which we will receive the results of the petition
             );
         }
 
@@ -68,10 +52,10 @@ namespace XdpVala {
             try {
                 bool? success;
                 result_label.visible = true;
-                success = portal.request_background.end (res);
+                success = portal.request_background.end (res); // Receive if the request was successful or not
 
                 if (success) {
-                    result_label.label = "Request succesful";
+                    result_label.label = "Request successful";
                     result_label.add_css_class ("success");
                 }
                 else {
@@ -87,25 +71,9 @@ namespace XdpVala {
                 }
             }
             catch (Error e) {
-                critical (e.message);
+                critical (e.message); // Handle error
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Background.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                reason_entry = builder.get_object ("reason_entry") as Gtk.Entry;
-                autostart_switch = builder.get_object ("autostart_switch") as Gtk.Switch;
-                request_button = builder.get_object ("request_button") as Gtk.Button;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

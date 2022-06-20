@@ -6,31 +6,28 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.trash_file.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/TrashFile.ui")]
     public class Pages.TrashFile : Page {
-        private Gtk.Button open_button;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned Gtk.Button open_button;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
         private string path;
 
         public TrashFile (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Trash File"
+                portal: portal_
             );
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             open_button.clicked.connect (on_open_button_clicked);
         }
 
         private void on_open_button_clicked () {
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
+            // See the FileChooser.vala page to see more information on the OpenFile portal, in case you need it
             portal.open_file.begin (
                 parent,
                 "Select a file to trash",
@@ -53,10 +50,11 @@ namespace XdpVala {
                 if (files[0] != "") {
                     path = GLib.Filename.from_uri (files[0]);
 
+                    // Trash file petition
                     portal.trash_file.begin (
-                        path,
-                        null,
-                        callback
+                        path, // Path of the file selected
+                        null, // Cancellable, we're using none
+                        callback // Callback of the function
                     );
                 }
             }
@@ -72,10 +70,11 @@ namespace XdpVala {
             result_label.remove_css_class ("success");
 
             try {
+                // A boolean that will tell us if our request was successful
                 result = portal.trash_file.end (res);
 
                 if (result) {
-                    result_label.label = "File was succesfully trashed";
+                    result_label.label = "File was successfully trashed";
                     result_label.add_css_class ("success");
                 }
                 else {
@@ -89,21 +88,5 @@ namespace XdpVala {
                 result_label.add_css_class ("error");
             }
         }
-
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/TrashFile.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                open_button = builder.get_object ("open_button") as Gtk.Button;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
-        }
-
     }
 }

@@ -6,37 +6,36 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.pick_color.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/ColorPicker.ui")]
     public class Pages.ColorPicker : Page {
-        private Gtk.Box result_box;
-        private Gtk.Button pick_button;
-        private ColorViewer color_viewer;
-        private Gtk.Label red_label;
-        private Gtk.Label green_label;
-        private Gtk.Label blue_label;
+        [GtkChild]
+        private unowned ColorViewer color_viewer;
+        [GtkChild]
+        private unowned Gtk.Label red_label;
+        [GtkChild]
+        private unowned Gtk.Label green_label;
+        [GtkChild]
+        private unowned Gtk.Label blue_label;
 
         public ColorPicker (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Color Picker"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-            pick_button.clicked.connect (on_pick_button_clicked);
+        static construct {
+            typeof (ColorViewer).ensure ();
         }
 
+        [GtkCallback]
         private void on_pick_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.pick_color.begin (
-                parent,
-                null,
-                callback
+                parent, // Xdp.Parent
+                null, // Cancellable, we're using none
+                callback // Callback for the function in which we will receive the result of our petition
             );
         }
 
@@ -44,16 +43,17 @@ namespace XdpVala {
             GLib.Variant colors;
 
             try {
-                colors = portal.pick_color.end (res);
+                colors = portal.pick_color.end (res); // Obtain the Variant with the RGB colors
                 double red = 0;
                 double green = 0;
                 double blue = 0;
 
-                GLib.VariantIter iter = colors.iterator ();
-                iter.next ("d", &red);
-                iter.next ("d", &green);
-                iter.next ("d", &blue);
+                GLib.VariantIter iter = colors.iterator (); // Iterate over the Variant
+                iter.next ("d", &red); // Obtain red
+                iter.next ("d", &green); // Obtain green
+                iter.next ("d", &blue); // Obtain Blue
 
+                // Display the colors obtain in screen.
                 color_viewer.color = {
                     (float) red,
                     (float) green,
@@ -75,28 +75,5 @@ namespace XdpVala {
 
             return code.to_string ();
         }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/ColorPicker.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                result_box = builder.get_object ("result_box") as Gtk.Box;
-                pick_button = builder.get_object ("pick_button") as Gtk.Button;
-                red_label = builder.get_object ("red_label") as Gtk.Label;
-                green_label = builder.get_object ("green_label") as Gtk.Label;
-                blue_label = builder.get_object ("blue_label") as Gtk.Label;
-
-                color_viewer = new ColorViewer () {
-                    valign = CENTER
-                };
-                result_box.prepend (color_viewer);
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
-        }
-
     }
 }

@@ -6,22 +6,37 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.session_inhibit.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Session.ui")]
     public class Pages.Session : Page {
-        private Gtk.Label screensaver_label;
-        private Gtk.Label state_label;
-        private Gtk.Button start_button;
-        private Gtk.Button stop_button;
+        [GtkChild]
+        private unowned Gtk.Label screensaver_label;
+        [GtkChild]
+        private unowned Gtk.Label state_label;
+        [GtkChild]
+        private unowned Gtk.Button start_button;
+        [GtkChild]
+        private unowned Gtk.Button stop_button;
 
-        private Gtk.CheckButton logout_check;
-        private Gtk.CheckButton switch_check;
-        private Gtk.CheckButton suspend_check;
-        private Gtk.CheckButton idle_check;
-        private Gtk.Entry reason_entry;
+        [GtkChild]
+        private unowned Gtk.CheckButton logout_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton switch_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton suspend_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton idle_check;
+        [GtkChild]
+        private unowned Adw.EntryRow reason_entry;
 
-        private Adw.PreferencesGroup results_group;
-        private Gtk.Label id_label;
-        private Gtk.Button inhibit_button;
-        private Gtk.Button uninhibit_button;
+        [GtkChild]
+        private unowned Adw.PreferencesGroup results_group;
+        [GtkChild]
+        private unowned Gtk.Label id_label;
+        [GtkChild]
+        private unowned Gtk.Button inhibit_button;
+        [GtkChild]
+        private unowned Gtk.Button uninhibit_button;
 
         private int inhibit_id;
         public bool inhibit_active { get; private set; default = false; }
@@ -29,19 +44,11 @@ namespace XdpVala {
 
         public Session (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Session"
+                portal: portal_
             );
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             bind_property ("monitor-active",
                 start_button, "sensitive",
                 SYNC_CREATE | INVERT_BOOLEAN
@@ -61,25 +68,23 @@ namespace XdpVala {
                 uninhibit_button, "sensitive",
                 SYNC_CREATE
             );
-
-            start_button.clicked.connect (on_start_button_clicked);
-            stop_button.clicked.connect (on_stop_button_clicked);
             portal.session_state_changed.connect (on_session_updated);
-
-            inhibit_button.clicked.connect (on_inhibit_button_clicked);
-            uninhibit_button.clicked.connect (on_uninhibit_button_clicked);
         }
 
+        [GtkCallback]
         private void on_start_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
+            // This function will monitor the session and will tell us its state
             portal.session_monitor_start.begin (
-                parent,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                NONE, // Request flags. Currently, the only value is NONE
+                null, // Cancellable, using none
+                callback // Callback for the petition
             );
         }
 
+        [GtkCallback]
         private void on_stop_button_clicked () {
             portal.session_monitor_stop ();
             monitor_active = false;
@@ -88,7 +93,9 @@ namespace XdpVala {
             state_label.label = "";
         }
 
+        [GtkCallback]
         private void on_inhibit_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
             Xdp.InhibitFlags flags = LOGOUT;
 
@@ -113,14 +120,15 @@ namespace XdpVala {
                 flags |= IDLE;
 
             portal.session_inhibit.begin (
-                parent,
-                reason_entry.text,
-                flags,
-                null,
-                inhibit_callback
+                parent, // Xdp.Parent
+                reason_entry.text, // Reason to inhibit the session
+                flags, // Flags of the petition to inhibit LOGOUT, USER_SWITCH, SUSPEND and/or IDLE
+                null, // Cancellable, using none
+                inhibit_callback // Callback of the function in which we will receive the result of the petition
             );
         }
 
+        [GtkCallback]
         private void on_uninhibit_button_clicked () {
             portal.session_uninhibit (inhibit_id);
             id_label.label = "";
@@ -129,6 +137,7 @@ namespace XdpVala {
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
+                // We will receive a boolean that will indicate if our request was successful
                 monitor_active = portal.session_monitor_start.end (res);
             }
             catch (Error e) {
@@ -139,6 +148,7 @@ namespace XdpVala {
         private void inhibit_callback (GLib.Object? obj, GLib.AsyncResult res) {
             results_group.visible = true;
             try {
+                // We will receive the ID of our "inhibit" petition, which we can use later to uninhibit
                 inhibit_id = portal.session_inhibit.end (res);
                 id_label.label = inhibit_id.to_string ();
                 inhibit_active = true;
@@ -149,6 +159,7 @@ namespace XdpVala {
             }
         }
 
+        // This method will be called when the LoginSessionState changes and we can query a change
         private void on_session_updated (bool screensaver, Xdp.LoginSessionState state) {
             screensaver_label.label = screensaver.to_string ();
 
@@ -168,34 +179,6 @@ namespace XdpVala {
                 default:
                     warn_if_reached ();
                     break;
-            }
-        }
-
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Session.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                screensaver_label = builder.get_object ("screensaver_label") as Gtk.Label;
-                state_label = builder.get_object ("state_label") as Gtk.Label;
-                start_button = builder.get_object ("start_button") as Gtk.Button;
-                stop_button = builder.get_object ("stop_button") as Gtk.Button;
-
-                logout_check = builder.get_object ("logout_check") as Gtk.CheckButton;
-                switch_check = builder.get_object ("switch_check") as Gtk.CheckButton;
-                suspend_check = builder.get_object ("suspend_check") as Gtk.CheckButton;
-                idle_check = builder.get_object ("idle_check") as Gtk.CheckButton;
-                reason_entry = builder.get_object ("reason_entry") as Gtk.Entry;
-
-                results_group = builder.get_object ("results_group") as Adw.PreferencesGroup;
-                id_label = builder.get_object ("id_label") as Gtk.Label;
-                inhibit_button = builder.get_object ("inhibit_button") as Gtk.Button;
-                uninhibit_button = builder.get_object ("uninhibit_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

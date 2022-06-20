@@ -6,34 +6,29 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.compose_email.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Email.ui")]
     public class Pages.Email : Page {
-        private AddressList address_list;
-        private AddressList cc_list;
-        private AddressList bcc_list;
-        private Gtk.Button send_button;
-        private Gtk.Entry subject_entry;
-        private Gtk.Entry body_entry;
-        private Gtk.Label result_label;
+        [GtkChild]
+        private unowned AddressList address_list;
+        [GtkChild]
+        private unowned AddressList cc_list;
+        [GtkChild]
+        private unowned AddressList bcc_list;
+        [GtkChild]
+        private unowned Adw.EntryRow subject_entry;
+        [GtkChild]
+        private unowned Adw.EntryRow body_entry;
+        [GtkChild]
+        private unowned Gtk.Label result_label;
 
         public Email (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Email"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            send_button.clicked.connect (on_send_button_clicked);
-        }
-
+        [GtkCallback]
         private void on_send_button_clicked () {
             string subject = subject_entry.text;
             string body = body_entry.text;
@@ -49,6 +44,7 @@ namespace XdpVala {
                 return;
             }
 
+            // Obtain the adressess given by the user
             string[] addresses = address_list.retrieve_emails ();
             if (addresses.length == 0) {
                 result_label.label = "No addresses have been provided";
@@ -56,21 +52,22 @@ namespace XdpVala {
                 return;
             }
 
-            string[] cc = cc_list.retrieve_emails ();
-            string[] bcc = bcc_list.retrieve_emails ();
+            string[] cc = cc_list.retrieve_emails (); // CC lists given by the user
+            string[] bcc = bcc_list.retrieve_emails (); // BCC lists given by the user
 
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
             portal.compose_email.begin (
-                parent,
-                addresses,
-                cc,
-                bcc,
-                subject,
-                body,
-                null,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                addresses, // String array of addresses that the email will be sent to
+                cc, // String array of the CC addressess of the email
+                bcc, // String array of the BCC addressess of the email
+                subject, // Subject of the email
+                body, // Body of the email
+                null, // Array of file URIs that will be attached to the email. Using none
+                NONE, // Flags of the request. Currently, the only value is NONE
+                null, // Cancellable, we're using none
+                callback // Callback of the function in which we will receive the result of the petition
             );
         }
 
@@ -78,14 +75,14 @@ namespace XdpVala {
             bool success;
 
             try {
-                success = portal.compose_email.end (res);
+                success = portal.compose_email.end (res); // Know if our request was successful
 
                 if (success) {
                     result_label.label = "Request was successful";
                     result_label.add_css_class ("success");
                 }
                 else {
-                    result_label.label = "Request unsucessful";
+                    result_label.label = "Request unsuccessful";
                     result_label.add_css_class ("warning");
                 }
             }
@@ -93,34 +90,6 @@ namespace XdpVala {
                 critical (e.message);
                 result_label.label = e.message;
                 result_label.add_css_class ("error");
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Email.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                var address_group = builder.get_object ("address_group") as Adw.PreferencesGroup;
-                var cc_group = builder.get_object ("cc_group") as Adw.PreferencesGroup;
-                var bcc_group = builder.get_object ("bcc_group") as Adw.PreferencesGroup;
-
-                send_button = builder.get_object ("send_button") as Gtk.Button;
-                subject_entry = builder.get_object ("subject_entry") as Gtk.Entry;
-                body_entry = builder.get_object ("body_entry") as Gtk.Entry;
-                result_label = builder.get_object ("result_label") as Gtk.Label;
-
-                address_list = new AddressList ();
-                cc_list = new AddressList ();
-                bcc_list = new AddressList ();
-
-                address_group.add (address_list);
-                cc_group.add (cc_list);
-                bcc_group.add (bcc_list);
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

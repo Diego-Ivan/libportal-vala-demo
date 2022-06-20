@@ -6,25 +6,30 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.get_user_information.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Accounts.ui")]
     public class Pages.Account : Page {
-        private Gtk.Image avatar;
-        private Gtk.Entry reason_entry;
-        private Gtk.Button request_button;
-        private Gtk.Label name_label;
-        private Gtk.Label id_label;
-        private Gtk.Box results_box;
+        [GtkChild]
+        private unowned Gtk.Image avatar;
+        [GtkChild]
+        private unowned Adw.EntryRow reason_entry;
+        [GtkChild]
+        private unowned Gtk.Button request_button;
+        [GtkChild]
+        private unowned Gtk.Label name_label;
+        [GtkChild]
+        private unowned Gtk.Label id_label;
+        [GtkChild]
+        private unowned Gtk.Box results_box;
         private bool request_succesful { get; set; }
 
         public Account (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Accounts"
+                portal: portal_
             );
         }
 
         construct {
-            title = "Accounts";
-            build_ui ();
             request_button.clicked.connect (() => {
 
                 if (reason_entry.text == "") {
@@ -35,14 +40,15 @@ namespace XdpVala {
                     reason_entry.remove_css_class ("error");
                 }
 
+                // https://valadoc.org/libportal/Xdp.Parent.html
                 var parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
                 portal.get_user_information.begin (
-                    parent,
-                    reason_entry.text,
-                    NONE,
-                    null,
-                    callback
+                    parent, // Xdp.Parent
+                    reason_entry.text, // Reason to provide the information, it will be displayed to the user
+                    NONE, // Flags to ask for the user information. Currently, NONE is the only value
+                    null, // A cancellable. We are not using any.
+                    callback // Function callback, in this one, we will receive the information
                 );
             });
         }
@@ -50,19 +56,19 @@ namespace XdpVala {
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             GLib.Variant info;
             try {
-                info = portal.get_user_information.end (res);
-                if (info == null) {
+                info = portal.get_user_information.end (res); // The return value is a GLib.Variant
+                if (info == null) { // Checking for null
                     critical ("Account Portal Cancelled");
                     return;
                 }
 
-               Variant name = info.lookup_value ("name", VariantType.STRING);
-               Variant id = info.lookup_value ("id", VariantType.STRING);
-               Variant uri = info.lookup_value ("image", VariantType.STRING);
+               Variant name = info.lookup_value ("name", VariantType.STRING); // Looking for the username
+               Variant id = info.lookup_value ("id", VariantType.STRING); // Looking for the user ID
+               Variant uri = info.lookup_value ("image", VariantType.STRING); // Looking for the profile picture, available as a file URI
 
-               name_label.label = (string) name;
-               id_label.label = (string) id;
-               var path = (string) uri;
+               name_label.label = (string) name; // Cast name as string to set it to the label
+               id_label.label = (string) id; // Cast ID as string to set it to the label
+               string path = (string) uri; // Cast the URI as string to load it
 
                if (path != "") {
                     var file = GLib.Filename.from_uri (path);
@@ -71,38 +77,14 @@ namespace XdpVala {
                         120,
                         120
                     );
-                    avatar.set_from_pixbuf (pixbuf);
+                    avatar.set_from_pixbuf (pixbuf); // Displaying the received image
                }
 
                results_box.visible = true;
             }
             catch (Error e){
                 results_box.visible = false;
-                critical (e.message);
-            }
-        }
-
-        public override void build_ui () {
-            var builder = new Gtk.Builder ();
-            try {
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Accounts.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                avatar = builder.get_object ("avatar") as Gtk.Image;
-                reason_entry = builder.get_object ("reason_entry") as Gtk.Entry;
-                request_button = builder.get_object ("request_button") as Gtk.Button;
-                name_label = builder.get_object ("name_label") as Gtk.Label;
-                id_label = builder.get_object ("id_label") as Gtk.Label;
-                results_box = builder.get_object ("results_box") as Gtk.Box;
-
-                var status = child as Adw.StatusPage;
-                status.bind_property ("title",
-                    this, "title",
-                    SYNC_CREATE | BIDIRECTIONAL
-                );
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
+                critical (e.message); // Show the error message
             }
         }
     }

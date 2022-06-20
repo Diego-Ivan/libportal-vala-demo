@@ -6,30 +6,27 @@
  */
 
 namespace XdpVala {
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Welcome.ui")]
     public class Pages.Welcome : Page {
-        private Gtk.Label status_label;
-        private Gtk.Label sandbox_label;
+        [GtkChild]
+        private unowned Gtk.Label status_label;
+        [GtkChild]
+        private unowned Gtk.Label sandbox_label;
 
         public Welcome (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Welcome"
+                portal: portal_
             );
         }
 
         construct {
-            title = "Welcome";
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-
             if (Xdp.Portal.running_under_sandbox ()) {
-                status.icon_name = "security-high-symbolic";
+                icon_name = "security-high-symbolic";
                 status_label.label = "Confined";
                 status_label.add_css_class ("success");
             }
             else {
-                status.icon_name = "security-high-symbolic";
+                icon_name = "security-high-symbolic";
                 status_label.label = "Unconfined";
                 status_label.add_css_class ("warning");
 
@@ -50,20 +47,6 @@ namespace XdpVala {
             catch (Error e) {
                 warning (e.message);
                 sandbox_label.label = "Unknown";
-            }
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Welcome.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                status_label = builder.get_object ("status_label") as Gtk.Label;
-                sandbox_label = builder.get_object ("sandbox_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
 

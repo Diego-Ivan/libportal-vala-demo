@@ -6,39 +6,45 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.create_screencast_session.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Screencast.ui")]
     public class Pages.Screencast : Page {
-        private Gtk.CheckButton monitor_check;
-        private Gtk.CheckButton window_check;
-        private Gtk.CheckButton virtual_check;
-        private Gtk.Switch multi_switch;
+        [GtkChild]
+        private unowned Gtk.CheckButton monitor_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton window_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton virtual_check;
+        [GtkChild]
+        private unowned Gtk.Switch multi_switch;
 
-        private Gtk.CheckButton hidden_check;
-        private Gtk.CheckButton embedded_check;
-        private Gtk.CheckButton metadata_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton hidden_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton embedded_check;
+        [GtkChild]
+        private unowned Gtk.CheckButton metadata_check;
 
-        private Gtk.Label status_label;
-        private Gtk.Button start_button;
-        private Gtk.Button close_button;
+        [GtkChild]
+        private unowned Gtk.Label status_label;
+        [GtkChild]
+        private unowned Gtk.Button start_button;
+        [GtkChild]
+        private unowned Gtk.Button close_button;
 
         public bool screencast_active { get; private set; }
+
+        // https://valadoc.org/libportal/Xdp.Session.html
         public Xdp.Session session { get; private set; }
         private Xdp.OutputType output_types;
         private Xdp.CursorMode cursor_mode;
 
         public Screencast (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Screencast"
+                portal: portal_
             );
         }
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
             screencast_active = false;
             bind_property ("screencast-active",
                 start_button, "sensitive",
@@ -49,33 +55,33 @@ namespace XdpVala {
                 close_button, "sensitive",
                 SYNC_CREATE
             );
-
-            start_button.clicked.connect (on_start_button_clicked);
-            close_button.clicked.connect (on_close_button_clicked);
         }
 
+        [GtkCallback]
         private void on_start_button_clicked () {
             status_label.visible = true;
             status_label.remove_css_class ("error");
             status_label.remove_css_class ("success");
 
-            bool multiple = multi_switch.active;
-            Xdp.ScreencastFlags screencast_flags = multiple?
-                Xdp.ScreencastFlags.NONE :
-                Xdp.ScreencastFlags.MULTIPLE;
-
             if (!get_output_types ()) return;
             if (!get_cursor_mode ()) return;
 
             portal.create_screencast_session.begin (
-                output_types,
-                screencast_flags,
-                cursor_mode,
-                NONE,
-                null,
-                null,
-                callback
+                output_types, // Select the output types: MONITOR, VIRTUAL or WINDOW
+                multi_switch.active? Xdp.ScreencastFlags.MULTIPLE : Xdp.ScreencastFlags.NONE, // Whether the screencast allows MULTIPLE streams or not (NONE)
+                cursor_mode, // Whether the cursor is EMBEDDED, HIDDEN or sent as METADATA
+                NONE, // Whether the screencast should PERSIST, should be TRANSIENT, or NONE (do not persist)
+                null, // Restore token. If a screencast configuration was made by the user, the token given should be put here to not show the dialog and immediately apply configurations
+                null, // Cancellable. We're using none
+                callback // Callback of the function in which we will receive the result of our petition
             );
+        }
+
+        [GtkCallback]
+        private void on_close_button_clicked () {
+            session.close (); // Close the Screencast session
+            screencast_active = false;
+            status_label.label = "Session has been closed";
         }
 
         private bool get_output_types () {
@@ -134,13 +140,14 @@ namespace XdpVala {
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
-                session = portal.create_screencast_session.end (res);
+                session = portal.create_screencast_session.end (res); // A Xdp.Session will return to us if the petition was successful, and therefore we can start the screencast
 
+                // https://valadoc.org/libportal/Xdp.Parent.html
                 Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
                 session.start.begin (
-                    parent,
-                    null,
-                    session_callback
+                    parent, // Xdp.Parent
+                    null, // Cancellable, we're using none
+                    session_callback // Callback of the session, in which we will receive if the start of the screencast was successful
                 );
             }
             catch (Error e) {
@@ -152,11 +159,15 @@ namespace XdpVala {
 
         private void session_callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
-                screencast_active = session.start.end (res);
+                screencast_active = session.start.end (res); // A boolean if the Screencast request was successful
 
                 if (screencast_active) {
                     status_label.label = "Screencast is currently active";
                     status_label.add_css_class ("success");
+
+                    // Here, you can open a Pipewire remote using Xdp.Session.open_pipewire_remote () to display your screencast
+                    // Later, close your session with Xdp.Session.close ()
+                    // Check the Xdp.Session docs to find more useful methods https://valadoc.org/libportal/Xdp.Session.html
                 }
                 else {
                     status_label.label = "Screencast failed to start";
@@ -167,36 +178,6 @@ namespace XdpVala {
                 critical (e.message);
                 status_label.label = e.message;
                 status_label.add_css_class ("error");
-            }
-        }
-
-        private void on_close_button_clicked () {
-            session.close ();
-            screencast_active = false;
-            status_label.label = "Session has been closed";
-        }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Screencast.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                monitor_check = builder.get_object ("monitor_check") as Gtk.CheckButton;
-                window_check = builder.get_object ("window_check") as Gtk.CheckButton;
-                virtual_check = builder.get_object ("virtual_check") as Gtk.CheckButton;
-                multi_switch = builder.get_object ("multi_switch") as Gtk.Switch;
-
-                hidden_check = builder.get_object ("hidden_check") as Gtk.CheckButton;
-                embedded_check = builder.get_object ("embedded_check") as Gtk.CheckButton;
-                metadata_check = builder.get_object ("metadata_check") as Gtk.CheckButton;
-
-                status_label = builder.get_object ("status_label") as Gtk.Label;
-                start_button = builder.get_object ("start_button") as Gtk.Button;
-                close_button = builder.get_object ("close_button") as Gtk.Button;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
             }
         }
     }

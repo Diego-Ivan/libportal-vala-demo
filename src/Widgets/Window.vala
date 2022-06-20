@@ -29,8 +29,8 @@ namespace XdpVala {
 		        new Pages.Email (portal),
 		        new Pages.FileChooser (portal),
 		        new Pages.Location (portal),
-		        new Pages.OpenURI (portal),
 		        new Pages.Notification (portal),
+		        new Pages.OpenURI (portal),
 		        new Pages.Screencast (portal),
 		        new Pages.Screenshot (portal),
 		        new Pages.Session (portal),
@@ -41,8 +41,8 @@ namespace XdpVala {
 		    foreach (var page in pages) {
 		        main_stack.add_titled (
 		            page,
-		            page.title,
-		            page.title
+		            page.short_title,
+		            page.short_title
 		        );
 		    }
 		}

@@ -1,94 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesNotification" parent="XdpValaPage">
+    <property name="title">Notification</property>
     <property name="description">Send a notification to the system</property>
     <property name="icon-name">preferences-system-notifications-symbolic</property>
-    <style>
-      <class name="compact"/>
-    </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+        <child>
+          <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Title</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="title_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">ID</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="id_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Body</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="body_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-
-                <child>
-                  <object class="AdwComboRow" id="priority_row">
-                    <property name="title">Priority</property>
-                    <property name="model">
-                      <object class="GtkStringList">
-                        <items>
-                          <item>Low</item>
-                          <item>Normal</item>
-                          <item>High</item>
-                          <item>Urgent</item>
-                        </items>
-                      </object>
-                    </property>
-                  </object>
-                </child>
-
+              <object class="AdwEntryRow" id="title_entry">
+                <property name="title">Title</property>
               </object>
             </child>
 
             <child>
-              <object class="GtkButton" id="send_button">
-                <property name="label">Send Notification</property>
-                <property name="halign">start</property>
+              <object class="AdwEntryRow" id="id_entry">
+                <property name="title">ID</property>
               </object>
             </child>
 
             <child>
-              <object class="GtkLabel" id="result_label">
-                <property name="visible">false</property>
+              <object class="AdwEntryRow" id="body_entry">
+                <property name="title">Body</property>
+              </object>
+            </child>
+
+
+            <child>
+              <object class="AdwComboRow" id="priority_row">
+                <property name="title">Priority</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item>Low</item>
+                      <item>Normal</item>
+                      <item>High</item>
+                      <item>Urgent</item>
+                    </items>
+                  </object>
+                </property>
               </object>
             </child>
 
           </object>
+        </child>
 
-        </property>
+        <child>
+          <object class="GtkButton" id="send_button">
+            <property name="label">Send Notification</property>
+            <property name="halign">start</property>
+            <signal name="clicked" handler="on_send_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="result_label">
+            <property name="visible">false</property>
+          </object>
+        </child>
+
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>

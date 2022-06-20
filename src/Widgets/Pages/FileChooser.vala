@@ -6,65 +6,59 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.open_file.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/FileChooser.ui")]
     public class Pages.FileChooser : Page {
-        private Gtk.Entry open_title_entry;
-        private Gtk.Entry save_title_entry;
-        private Gtk.Entry text_entry;
-        private Gtk.Switch multiple_switch;
-        private Gtk.Button open_button;
-        private Gtk.Button save_button;
-        private Gtk.Label open_response;
-        private Adw.PreferencesGroup response_group;
+        [GtkChild]
+        private unowned Adw.EntryRow open_title_entry;
+        [GtkChild]
+        private unowned Adw.EntryRow save_title_entry;
+        [GtkChild]
+        private unowned Adw.EntryRow text_entry;
+        [GtkChild]
+        private unowned Gtk.Switch multiple_switch;
+        [GtkChild]
+        private unowned Gtk.Label open_response;
+        [GtkChild]
+        private unowned Adw.PreferencesGroup response_group;
 
         public FileChooser (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "File Chooser"
+                portal: portal_
             );
         }
 
         construct {
-            build_ui ();
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-            open_button.clicked.connect (on_open_button_clicked);
-            save_button.clicked.connect (on_save_button_clicked);
         }
 
+        [GtkCallback]
         public void on_open_button_clicked () {
-            string title = open_title_entry.text;
-            bool multiple = multiple_switch.active;
             response_group.visible = true;
+
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             portal.open_file.begin (
-                parent,
-                title,
-                null,
-                null,
-                null,
-                multiple? Xdp.OpenFileFlags.MULTIPLE : Xdp.OpenFileFlags.NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                open_title_entry.text, // Title of the dialog
+                null, // Filters as Variant. Using none
+                null, // Current filter as Variant, using none
+                null, // Current filter as choices, using none
+                multiple_switch.active? Xdp.OpenFileFlags.MULTIPLE : Xdp.OpenFileFlags.NONE, // Flags for the call, whether its multiple files or a single one
+                null, // Cancellable, using none
+                callback // Callback of the function in which we will receive the output of our petition
             );
         }
 
+        [GtkCallback]
         public void on_save_button_clicked () {
-            string title = save_title_entry.text;
-
-            if (title == "") {
-                title = save_title_entry.placeholder_text;
-            }
-
+            // Gtk Provides the FileChooserNative API, an easy to use filechooser portal
             var dialog = new Gtk.FileChooserNative (
-                title,
-                get_native () as Gtk.Window,
-                Gtk.FileChooserAction.SAVE,
-                null,
-                null
+                save_title_entry.text, // Title of the dialog
+                get_native () as Gtk.Window, // Window parent
+                Gtk.FileChooserAction.SAVE, // Action, whether its SAVE or OPEN
+                null, // Accept button label, using the default
+                null // Cancel button label, using the default
             );
 
             string[] encoding_options = {
@@ -87,18 +81,18 @@ namespace XdpVala {
 
             dialog.response.connect ((res) => {
                 if (res == Gtk.ResponseType.ACCEPT) {
-                    string path = dialog.get_file ().get_path ();
+                    string path = dialog.get_file ().get_path (); // Obtaining the file that was given to us
                     bool result = false;
 
                     try {
-                        result = GLib.FileUtils.set_contents (path, text_entry.text);
+                        result = GLib.FileUtils.set_contents (path, text_entry.text); // Writing to such file
                     }
                     catch (Error e) {
                         critical (e.message);
                     }
 
                     if (!result) {
-                        warning ("Error writting file");
+                        warning ("Error writing file");
                     }
                 }
             });
@@ -107,15 +101,16 @@ namespace XdpVala {
         }
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
-            GLib.Variant info;
+            GLib.Variant info; // Result as a Variant
             open_response.label = "";
             try {
                 info = portal.open_file.end (res);
-                Variant uris = info.lookup_value ("uris", VariantType.STRING_ARRAY);
-                string[] files = uris as string[];
+                Variant uris = info.lookup_value ("uris", VariantType.STRING_ARRAY); // Lookup for the URIs of the files
+                string[] files = (string[]) uris;
 
                 for (int i = 0; i < files.length; i++) {
                     string response = "%s\n".printf (files[i]);
+                    // displaye the URIs on screen
                     open_response.label += response;
                 }
 
@@ -127,29 +122,5 @@ namespace XdpVala {
                 critical (e.message);
             }
         }
-
-        public void save_callback (GLib.Object? obj, GLib.AsyncResult res) {
-        }
-
-        public override void build_ui () {
-           try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/FileChooser.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                open_title_entry = builder.get_object ("open_title_entry") as Gtk.Entry;
-                save_title_entry = builder.get_object ("save_title_entry") as Gtk.Entry;
-                text_entry = builder.get_object ("text_entry") as Gtk.Entry;
-                multiple_switch = builder.get_object ("multiple_switch") as Gtk.Switch;
-                open_button = builder.get_object ("open_button") as Gtk.Button;
-                save_button = builder.get_object ("save_button") as Gtk.Button;
-                open_response = builder.get_object ("open_response") as Gtk.Label;
-                response_group = builder.get_object ("response_group") as Adw.PreferencesGroup;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
-        }
-
     }
 }

@@ -1,165 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesSession" parent="XdpValaPage">
+    <property name="title">Session</property>
     <property name="description">Monitor your session and inhibit some states</property>
     <property name="icon-name">preferences-desktop-display-symbolic</property>
-    <style>
-      <class name="compact"/>
-    </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
+        <child>
           <object class="GtkBox">
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
-
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title">Session Status</property>
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Screensaver active</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="screensaver_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Session state</property>
-                          <child type="suffix">
-                          <object class="GtkLabel" id="state_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="orientation">horizontal</property>
-
-                    <child>
-                      <object class="GtkButton" id="start_button">
-                        <property name="label">Monitor session</property>
-                        <property name="halign">start</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton" id="stop_button">
-                        <property name="label">Stop monitoring</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">true</property>
-                        <style>
-                          <class name="destructive-action"/>
-                        </style>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child>
+            <property name="spacing">6</property>
 
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title">Inhibit and Unhibit</property>
-
+                <property name="title">Session Status</property>
                 <child>
                   <object class="AdwActionRow">
-                    <property name="title">Logout</property>
-                    <property name="subtitle">Inhibit logout</property>
-                    <property name="activatable-widget">logout_check</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="logout_check">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">User Switch</property>
-                    <property name="subtitle">Inhibir user switching</property>
-                    <property name="activatable-widget">switch_check</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="switch_check">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Suspend</property>
-                    <property name="subtitle">Inhibit suspend</property>
-                    <property name="activatable-widget">suspend_check</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="suspend_check">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Idle</property>
-                    <property name="subtitle">Inhibit the session from going idle</property>
-                    <property name="activatable-widget">idle_check</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="idle_check">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Reason</property>
+                    <property name="title">Screensaver active</property>
                     <child type="suffix">
-                      <object class="GtkEntry" id="reason_entry">
-                        <property name="valign">center</property>
+                      <object class="GtkLabel" id="screensaver_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
 
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup" id="results_group">
-                <property name="title">Result</property>
-                <property name="visible">false</property>
-
                 <child>
                   <object class="AdwActionRow">
-                    <property name="title">ID</property>
-                    <child type="suffix">
-                      <object class="GtkLabel" id="id_label">
+                    <property name="title">Session state</property>
+                      <child type="suffix">
+                      <object class="GtkLabel" id="state_label">
                         <style>
                           <class name="dim-label"/>
                         </style>
@@ -176,17 +52,19 @@
                 <property name="orientation">horizontal</property>
 
                 <child>
-                  <object class="GtkButton" id="inhibit_button">
-                    <property name="label">Inhibit</property>
+                  <object class="GtkButton" id="start_button">
+                    <property name="label">Monitor session</property>
                     <property name="halign">start</property>
+                    <signal name="clicked" handler="on_start_button_clicked" swapped="no"/>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkButton" id="uninhibit_button">
-                    <property name="label">Unhibit</property>
+                  <object class="GtkButton" id="stop_button">
+                    <property name="label">Stop monitoring</property>
                     <property name="halign">end</property>
                     <property name="hexpand">true</property>
+                    <signal name="clicked" handler="on_stop_button_clicked" swapped="no"/>
                     <style>
                       <class name="destructive-action"/>
                     </style>
@@ -197,9 +75,122 @@
             </child>
 
           </object>
-        </property>
-      </object>
-    </property>
+        </child>
 
-  </object>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Inhibit and Unhibit</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Logout</property>
+                <property name="subtitle">Inhibit logout</property>
+                <property name="activatable-widget">logout_check</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="logout_check">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">User Switch</property>
+                <property name="subtitle">Inhibir user switching</property>
+                <property name="activatable-widget">switch_check</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="switch_check">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Suspend</property>
+                <property name="subtitle">Inhibit suspend</property>
+                <property name="activatable-widget">suspend_check</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="suspend_check">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Idle</property>
+                <property name="subtitle">Inhibit the session from going idle</property>
+                <property name="activatable-widget">idle_check</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="idle_check">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwEntryRow" id="reason_entry">
+                <property name="title">Reason</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="results_group">
+            <property name="title">Result</property>
+            <property name="visible">false</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">ID</property>
+                <child type="suffix">
+                  <object class="GtkLabel" id="id_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+
+            <child>
+              <object class="GtkButton" id="inhibit_button">
+                <property name="label">Inhibit</property>
+                <property name="halign">start</property>
+                <signal name="clicked" handler="on_inhibit_button_clicked" swapped="no"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="uninhibit_button">
+                <property name="label">Unhibit</property>
+                <property name="halign">end</property>
+                <property name="hexpand">true</property>
+                <signal name="clicked" handler="on_uninhibit_button_clicked" swapped="no"/>
+                <style>
+                  <class name="destructive-action"/>
+                </style>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
 </interface>

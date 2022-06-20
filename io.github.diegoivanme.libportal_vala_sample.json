@@ -1,71 +1,76 @@
 {
-    "app-id" : "io.github.diegoivanme.libportal_vala_sample",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
-    "sdk" : "org.gnome.Sdk",
-    "command" : "libportal-vala-sample",
-    "finish-args" : [
-        "--share=network",
-        "--share=ipc",
-        "--socket=fallback-x11",
-        "--device=dri",
-        "--socket=wayland"
-    ],
-    "cleanup" : [
-        "/include",
-        "/lib/pkgconfig",
-        "/man",
-        "/share/doc",
-        "/share/gtk-doc",
-        "/share/man",
-        "/share/pkgconfig",
-        "/share/vala",
-        "*.la",
-        "*.a"
-    ],
-    "modules" : [
-    	{
-    		"name": "libportal",
-    		"buildsystem": "meson",
-    		"builddir": true,
-    		"config-opts": [
-    			"-Dbackends=gtk4",
-    			"-Ddocs=false"
-    		],
-    		"sources": [
-	        {
-          	"type": "git",
-          	"url": "https://github.com/flatpak/libportal.git",
-          	"branch": "master"
-        	}
-    		]
-    	},
-
-    	{
-            "name": "libshumate",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dgtk_doc=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libshumate/",
-                    "commit": "499406f91b86c23b7ffb530164a408e4e2789a3e"
-                }
-            ]
-        },
-
-      {
-        "name" : "libportal-vala-sample",
-        "builddir" : true,
-        "buildsystem" : "meson",
-        "sources" : [
-            {
-                "type" : "git",
-                "url" : "."
-            }
-        ]
-      }
-    ]
+  "app-id": "io.github.diegoivanme.libportal_vala_sample",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "master",
+  "sdk": "org.gnome.Sdk",
+  "command": "libportal-vala-sample",
+  "sdk-extensions" : [
+    "org.freedesktop.Sdk.Extension.vala"
+  ],
+  "build-options" : {
+    "prepend-path" : "/usr/lib/sdk/vala/bin/",
+    "prepend-ld-library-path" : "/usr/lib/sdk/vala/lib"
+  },
+  "finish-args": [
+    "--share=network",
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--device=dri",
+    "--socket=wayland"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "/share/man",
+    "/share/pkgconfig",
+    "/share/vala",
+    "*.la",
+    "*.a"
+  ],
+  "modules": [
+    {
+      "name": "libportal",
+      "buildsystem": "meson",
+      "builddir": true,
+      "config-opts": [
+        "-Dbackends=gtk4",
+        "-Ddocs=false"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/flatpak/libportal.git",
+          "branch": "main"
+        }
+      ]
+    },
+    {
+      "name": "libshumate",
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Dgtk_doc=false"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://gitlab.gnome.org/GNOME/libshumate/",
+          "commit": "663bfa83973cbc07d1908d23948af071e27b29d3"
+        }
+      ]
+    },
+    {
+      "name": "libportal-vala-sample",
+      "builddir": true,
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "."
+        }
+      ]
+    }
+  ]
 }

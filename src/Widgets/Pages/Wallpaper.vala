@@ -6,33 +6,26 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.set_wallpaper.html
+    [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Wallpaper.ui")]
     public class Pages.Wallpaper : Page {
-        private Adw.ComboRow options_combo;
-        private Gtk.Switch preview_switch;
-        private Gtk.Button open_button;
-        private Gtk.Label response_label;
+        [GtkChild]
+        private unowned Adw.ComboRow options_combo;
+        [GtkChild]
+        private unowned Gtk.Switch preview_switch;
+        [GtkChild]
+        private unowned Gtk.Label response_label;
+
         private Xdp.WallpaperFlags flags;
         private string image_path;
 
         public Wallpaper (Xdp.Portal portal_) {
             Object (
-                portal: portal_,
-                title: "Wallpaper"
+                portal: portal_
             );
         }
 
-        construct {
-            build_ui ();
-
-            var status = child as Adw.StatusPage;
-            status.bind_property ("title",
-                this, "title",
-                SYNC_CREATE | BIDIRECTIONAL
-            );
-
-            open_button.clicked.connect (on_open_button_clicked);
-        }
-
+        [GtkCallback]
         private void on_open_button_clicked () {
             var string_list = options_combo.model as Gtk.StringList;
             string selected = string_list.get_string (options_combo.selected);
@@ -80,13 +73,14 @@ namespace XdpVala {
                 if (res == Gtk.ResponseType.ACCEPT) {
                     image_path = filechooser.get_file ().get_uri ();
 
+                    // https://valadoc.org/libportal/Xdp.Parent.html
                     Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
                     portal.set_wallpaper.begin (
-                        parent,
-                        image_path,
-                        flags,
-                        null,
-                        callback
+                        parent, // Xdp.Parent
+                        image_path, // Path of the image that will be set as wasllpaper
+                        flags, // Flags of the petition, whether is should set as BACKGROUND, LOCKSCREEN, if it should display a PREVIEW or NONE
+                        null, // Cancellable, using none
+                        callback // Callback of the function, in which we will receive its result.
                     );
                 }
             });
@@ -101,6 +95,7 @@ namespace XdpVala {
             response_label.remove_css_class ("error");
 
             try {
+                // We will receive a boolean that will indicate if our petition was successful
                 result = portal.set_wallpaper.end (res);
 
                 if (result) {
@@ -119,22 +114,5 @@ namespace XdpVala {
                 response_label.add_css_class ("error");
             }
         }
-
-        public override void build_ui () {
-            try {
-                var builder = new Gtk.Builder ();
-                builder.add_from_resource ("/io/github/diegoivanme/libportal_vala_sample/Wallpaper.ui");
-                child = builder.get_object ("main_widget") as Gtk.Widget;
-
-                options_combo = builder.get_object ("options_combo") as Adw.ComboRow;
-                preview_switch = builder.get_object ("preview_switch") as Gtk.Switch;
-                open_button = builder.get_object ("open_button") as Gtk.Button;
-                response_label = builder.get_object ("response_label") as Gtk.Label;
-            }
-            catch (Error e) {
-                critical ("Error loading UI file: %s", e.message);
-            }
-        }
-
     }
 }

@@ -1,37 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesLocation" parent="XdpValaPage">
     <property name="description">Get the user location</property>
     <property name="icon-name">location-services-active-symbolic</property>
     <style>
       <class name="compact"/>
     </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox" id="main_box">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-          <object class="GtkBox" id="main_box">
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Distance threshold (Meters)</property>
+                <child type="suffix">
+                  <object class="GtkSpinButton" id="distance_entry">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">1500</property>
+                        <property name="step-increment">1</property>
+                        <property name="page-increment">10</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Time threshold (seconds)</property>
+                <child type="suffix">
+                  <object class="GtkSpinButton" id="time_entry">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">1000</property>
+                        <property name="step-increment">1</property>
+                        <property name="page-increment">10</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwComboRow" id="accuracy_row">
+                <property name="title">Accuracy</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item>None</item>
+                      <item>Exact</item>
+                      <item>Street</item>
+                      <item>Neighborhood</item>
+                      <item>City</item>
+                      <item>Country</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+
+            <child>
+              <object class="GtkButton" id="start_button">
+                <property name="label">Start</property>
+                <property name="halign">start</property>
+                <signal name="clicked" handler="on_start_button_clicked" swapped="no"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="stop_button">
+                <property name="label">Stop</property>
+                <property name="halign">end</property>
+                <property name="hexpand">true</property>
+                <signal name="clicked" handler="on_stop_button_clicked" swapped="no"/>
+                <style>
+                  <class name="destructive-action"/>
+                </style>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="error_label">
+            <property name="visible">false</property>
+            <property name="ellipsize">end</property>
+            <style>
+              <class name="error"/>
+            </style>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox" id="result_box">
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+            <property name="spacing">6</property>
+            <property name="visible">false</property>
+
+            <child>
+              <object class="ShumateSimpleMap" id="simple_map">
+                <property name="height-request">300</property>
+              </object>
+            </child>
 
             <child>
               <object class="AdwPreferencesGroup">
 
                 <child>
                   <object class="AdwActionRow">
-                    <property name="title">Distance threshold (Meters)</property>
+                    <property name="title">Latitude</property>
                     <child type="suffix">
-                      <object class="GtkSpinButton" id="distance_entry">
-                        <property name="valign">center</property>
-                        <property name="adjustment">
-                          <object class="GtkAdjustment">
-                            <property name="lower">0</property>
-                            <property name="upper">1500</property>
-                            <property name="step-increment">1</property>
-                            <property name="page-increment">10</property>
-                          </object>
-                        </property>
+                      <object class="GtkLabel" id="lat_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
                   </object>
@@ -39,166 +141,66 @@
 
                 <child>
                   <object class="AdwActionRow">
-                    <property name="title">Time threshold (seconds)</property>
+                    <property name="title">Longitude</property>
                     <child type="suffix">
-                      <object class="GtkSpinButton" id="time_entry">
-                        <property name="valign">center</property>
-                        <property name="adjustment">
-                          <object class="GtkAdjustment">
-                            <property name="lower">0</property>
-                            <property name="upper">1000</property>
-                            <property name="step-increment">1</property>
-                            <property name="page-increment">10</property>
-                          </object>
-                        </property>
+                      <object class="GtkLabel" id="longi_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
 
                 <child>
-                  <object class="AdwComboRow" id="accuracy_row">
+                  <object class="AdwActionRow">
+                    <property name="title">Altitude</property>
+                    <child type="suffix">
+                      <object class="GtkLabel" id="alti_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
                     <property name="title">Accuracy</property>
-                    <property name="model">
-                      <object class="GtkStringList">
-                        <items>
-                          <item>None</item>
-                          <item>Exact</item>
-                          <item>Street</item>
-                          <item>Neighborhood</item>
-                          <item>City</item>
-                          <item>Country</item>
-                        </items>
+                    <child type="suffix">
+                      <object class="GtkLabel" id="acc_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
-                    </property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-
-                <child>
-                  <object class="GtkButton" id="start_button">
-                    <property name="label">Start</property>
-                    <property name="halign">start</property>
+                    </child>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkButton" id="stop_button">
-                    <property name="label">Stop</property>
-                    <property name="halign">end</property>
-                    <property name="hexpand">true</property>
-                    <style>
-                      <class name="destructive-action"/>
-                    </style>
+                  <object class="AdwActionRow">
+                    <property name="title">Speed</property>
+                    <child type="suffix">
+                      <object class="GtkLabel" id="speed_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
 
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="error_label">
-                <property name="visible">false</property>
-                <property name="ellipsize">end</property>
-                <style>
-                  <class name="error"/>
-                </style>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkBox" id="result_box">
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
-                <property name="visible">false</property>
-
                 <child>
-                  <object class="AdwPreferencesGroup">
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Latitude</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="lat_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                  <object class="AdwActionRow">
+                    <property name="title">Heading</property>
+                    <child type="suffix">
+                      <object class="GtkLabel" id="head_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Longitude</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="longi_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Altitude</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="alti_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Accuracy</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="acc_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Speed</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="speed_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Heading</property>
-                        <child type="suffix">
-                          <object class="GtkLabel" id="head_label">
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
                   </object>
                 </child>
 
@@ -206,10 +208,10 @@
             </child>
 
           </object>
+        </child>
 
-        </property>
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>

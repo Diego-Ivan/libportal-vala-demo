@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesBackground" parent="XdpValaPage">
+    <property name="title">Background</property>
     <property name="icon-name">screen-privacy2-symbolic</property>
     <property name="description">Allow the application to run in the background</property>
-    <style>
-      <class name="compact"/>
-    </style>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">7</property>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">7</property>
-
+        <child>
+          <object class="AdwPreferencesGroup">
             <child>
-              <object class="AdwPreferencesGroup">
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Reason</property>
-                    <child type="suffix">
-                      <object class="GtkEntry" id="reason_entry">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Require Autostart</property>
-                    <child type="suffix">
-                      <object class="GtkSwitch" id="autostart_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-
+              <object class="AdwEntryRow" id="reason_entry">
+                <property name="title">Reason</property>
               </object>
             </child>
 
             <child>
-              <object class="GtkButton" id="request_button">
-                <property name="halign">start</property>
-                <property name="label">Request</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="result_label">
-                <property name="visible">false</property>
+              <object class="AdwActionRow">
+                <property name="title">Require Autostart</property>
+                <child type="suffix">
+                  <object class="GtkSwitch" id="autostart_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
               </object>
             </child>
 
           </object>
-        </property>
-      </object>
-    </property>
+        </child>
 
-  </object>
+        <child>
+          <object class="GtkButton" id="request_button">
+            <property name="halign">start</property>
+            <property name="label">Request</property>
+            <signal name="clicked" handler="request_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="result_label">
+            <property name="visible">false</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
 </interface>

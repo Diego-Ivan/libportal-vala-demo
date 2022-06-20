@@ -1,90 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesScreenshot" parent="XdpValaPage">
+    <property name="title">Screenshot</property>
     <property name="description">Take a screenshot with your system's default handler</property>
     <property name="icon-name">camera-focus-symbolic</property>
-    <style>
-      <class name="compact"/>
-    </style>
 
-    <property name="child">
-      <object class="AdwClamp">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-        <property name="child">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+        <child>
+          <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesGroup">
+              <object class="AdwActionRow">
+                <property name="title">Interactive</property>
 
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">Interactive</property>
-
-                    <child type="suffix">
-                      <object class="GtkSwitch" id="interactive_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
+                <child type="suffix">
+                  <object class="GtkSwitch" id="interactive_switch">
+                    <property name="valign">center</property>
                   </object>
                 </child>
 
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup" id="results_group">
-                <property name="title">Screenshot</property>
-                <property name="visible">false</property>
-
-                <child>
-                  <object class="AdwPreferencesRow">
-                    <property name="child">
-
-                      <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">12</property>
-                        <property name="margin-top">6</property>
-                        <property name="margin-bottom">6</property>
-
-                        <child>
-                          <object class="GtkImage" id="screenshot">
-                            <property name="pixel-size">120</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel" id="result_label">
-                            <property name="ellipsize">start</property>
-                            <style>
-                              <class name="caption"/>
-                            </style>
-                          </object>
-                        </child>
-
-                      </object>
-
-                    </property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="capture_button">
-                <property name="label">Take Screenshot</property>
-                <property name="halign">start</property>
               </object>
             </child>
 
           </object>
-        </property>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="results_group">
+            <property name="title">Screenshot</property>
+            <property name="visible">false</property>
+
+            <child>
+              <object class="AdwPreferencesRow">
+                <property name="child">
+
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                    <property name="margin-top">6</property>
+                    <property name="margin-bottom">6</property>
+
+                    <child>
+                      <object class="GtkImage" id="screenshot">
+                        <property name="pixel-size">120</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel" id="result_label">
+                        <property name="ellipsize">start</property>
+                        <style>
+                          <class name="caption"/>
+                        </style>
+                      </object>
+                    </child>
+
+                  </object>
+
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton" id="capture_button">
+            <property name="label">Take Screenshot</property>
+            <property name="halign">start</property>
+            <signal name="clicked" handler="on_capture_button_clicked" swapped="no"/>
+          </object>
+        </child>
 
       </object>
-    </property>
+    </child>
 
-  </object>
+  </template>
 </interface>

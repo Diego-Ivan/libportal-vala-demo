@@ -1,74 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="AdwStatusPage" id="main_widget">
+  <template class="XdpValaPagesColorPicker" parent="XdpValaPage">
+    <property name="title">Color Picker</property>
     <property name="description">Pick a color from the screen</property>
     <property name="icon-name">color-picker-symbolic</property>
     <style>
       <class name="compact"/>
     </style>
 
-    <property name="child">
-      <object class="AdwClamp">
-        <property name="child">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
 
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+        <child>
+          <object class="GtkBox" id="result_box">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">10</property>
 
             <child>
-              <object class="GtkBox" id="result_box">
-                <property name="orientation">horizontal</property>
-                <property name="spacing">10</property>
+              <object class="AdwPreferencesGroup">
+                <property name="hexpand">true</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="hexpand">true</property>
+                  <object class="AdwActionRow">
+                    <property name="title">Red</property>
 
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Red</property>
-
-                        <child type="suffix">
-                          <object class="GtkLabel" id="red_label">
-                            <property name="label">0</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-
+                    <child type="suffix">
+                      <object class="GtkLabel" id="red_label">
+                        <property name="label">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
 
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Green</property>
+                  </object>
+                </child>
 
-                        <child type="suffix">
-                          <object class="GtkLabel" id="green_label">
-                            <property name="label">0</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Green</property>
 
+                    <child type="suffix">
+                      <object class="GtkLabel" id="green_label">
+                        <property name="label">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
 
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title">Blue</property>
+                  </object>
+                </child>
 
-                        <child type="suffix">
-                          <object class="GtkLabel" id="blue_label">
-                            <property name="label">0</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Blue</property>
 
+                    <child type="suffix">
+                      <object class="GtkLabel" id="blue_label">
+                        <property name="label">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
 
@@ -79,17 +74,25 @@
             </child>
 
             <child>
-              <object class="GtkButton" id="pick_button">
-                <property name="label">Pick a color</property>
-                <property name="halign">start</property>
+              <object class="XdpValaColorViewer" id="color_viewer">
+                <property name="valign">center</property>
               </object>
             </child>
 
           </object>
+        </child>
 
-        </property>
+        <child>
+          <object class="GtkButton" id="pick_button">
+            <property name="label">Pick a color</property>
+            <property name="halign">start</property>
+            <signal name="clicked" handler="on_pick_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
       </object>
-    </property>
 
-  </object>
+    </child>
+
+  </template>
 </interface>

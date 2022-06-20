@@ -18,16 +18,17 @@
     <file alias="Wallpaper.ui" preprocess="xml-stripblanks">ui/Wallpaper.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>
 
-    <file preprocess="xml-stripblanks">icons/camera-focus-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/color-picker-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/container-terminal-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/drawer-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/external-link-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/mail-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/person2-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/screen-privacy2-symbolic.svg</file>
-
     <file>style.css</file>
 
+  </gresource>
+  <gresource prefix="/io/github/diegoivanme/libportal_vala_sample/icons/scalable/actions/">
+    <file preprocess="xml-stripblanks" alias="camera-focus-symbolic.svg">icons/camera-focus-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="color-picker-symbolic.svg">icons/color-picker-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="container-terminal-symbolic.svg">icons/container-terminal-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="drawer-symbolic.svg">icons/drawer-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="external-link-symbolic.svg">icons/external-link-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="mail-symbolic.svg">icons/mail-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="person2-symbolic.svg">icons/person2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="screen-privacy2-symbolic.svg">icons/screen-privacy2-symbolic.svg</file>
   </gresource>
 </gresources>

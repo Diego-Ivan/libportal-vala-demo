@@ -32,7 +32,7 @@ libportal_vala_sample_deps = [
   dependency('libadwaita-1'),
   dependency('libportal'),
   dependency('libportal-gtk4'),
-  dependency('shumate-0.0'),
+  dependency('shumate-1.0'),
 ]
 
 conf = configuration_data()
