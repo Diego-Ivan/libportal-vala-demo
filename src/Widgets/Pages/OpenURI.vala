@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.open_uri.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/OpenURI.ui")]
     public class Pages.OpenURI : Page {
         [GtkChild]
@@ -24,6 +25,7 @@ namespace XdpVala {
         [GtkCallback]
         private void on_open_button_clicked () {
             Xdp.OpenUriFlags flags = NONE;
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native () as Gtk.Window);
 
             if (ask_switch.active && writable_switch.active) {
@@ -37,11 +39,11 @@ namespace XdpVala {
             }
 
             portal.open_uri.begin (
-                parent,
-                uri_entry.text,
-                flags,
-                null,
-                callback
+                parent, // Xdp.Parent
+                uri_entry.text, // URI that will be open by the portal
+                flags, // Flags of the request, whether it should ASK preferred browser, whether the file is WRITABLE, both or NONE
+                null, // Cancellable, we're using NONE
+                callback // Callback in which we will receive the result of our petition
             );
         }
 
@@ -50,7 +52,7 @@ namespace XdpVala {
             uri_entry.remove_css_class ("error");
 
             try {
-                result = portal.open_uri.end (res);
+                result = portal.open_uri.end (res); // Boolean that indicates if the request was successful
 
                 if (!result) {
                     uri_entry.add_css_class ("error");
