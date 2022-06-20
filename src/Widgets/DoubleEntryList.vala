@@ -12,7 +12,7 @@ namespace XdpVala {
 
         protected override void add_new_row () {
             var n_row = new DoubleEntryRow () {
-                middle_widget = new Gtk.Label ("="),
+                middle_char = "=",
                 start_placeholder = this.start_placeholder,
                 end_placeholder = this.end_placeholder
             };
@@ -23,12 +23,17 @@ namespace XdpVala {
 
         public override string[] retrieve_strings () {
             string[] strings = {};
-            int i = 0;
+            int i = -1;
 
-            Gtk.ListBoxRow? current_row;
-            current_row = listbox.get_row_at_index (i);
+            Gtk.ListBoxRow? current_row = null;
 
-            while ((current_row != null) || (current_row != new_address_row)) {
+            do {
+                i++;
+                current_row = listbox.get_row_at_index (i);
+
+                if (current_row == new_address_row)
+                    break;
+
                 var row = (DoubleEntryRow) current_row;
 
                 if (row.start_text == "" || row.end_text == "") {
@@ -36,10 +41,8 @@ namespace XdpVala {
                     continue;
                 }
 
-                strings += "%s=%s".printf (row.start_text, row.end_text);
-                i++;
-                current_row = listbox.get_row_at_index (i);
-            }
+                strings += "%s%s%s".printf (row.start_text, row.middle_char, row.end_text);
+            } while ((current_row != null));
             return strings;
         }
     }
@@ -58,6 +61,7 @@ namespace XdpVala {
             margin_top = 6,
             margin_bottom = 6
         };
+        private Gtk.Label middle_char_label = new Gtk.Label ("");
 
         public string start_text {
             get {
@@ -89,17 +93,18 @@ namespace XdpVala {
             }
         }
 
-        public Gtk.Widget middle_widget {
+        public string middle_char {
             get {
-                return center_box.get_center_widget ();
+                return middle_char_label.label;
             }
             set {
-                center_box.set_center_widget (value);
+                middle_char_label.label = value;
             }
         }
+
         construct {
             child = center_box;
-            middle_widget = new Gtk.Label ("=");
+            center_box.set_center_widget (middle_char_label);
             center_box.set_orientation (HORIZONTAL);
             center_box.set_start_widget (start_entry);
             center_box.set_end_widget (end_entry);
