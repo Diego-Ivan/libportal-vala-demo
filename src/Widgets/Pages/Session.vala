@@ -6,6 +6,7 @@
  */
 
 namespace XdpVala {
+    // https://valadoc.org/libportal/Xdp.Portal.session_inhibit.html
     [GtkTemplate (ui = "/io/github/diegoivanme/libportal_vala_sample/Session.ui")]
     public class Pages.Session : Page {
         [GtkChild]
@@ -72,12 +73,14 @@ namespace XdpVala {
 
         [GtkCallback]
         private void on_start_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
+            // This function will monitor the session and will tell us its state
             portal.session_monitor_start.begin (
-                parent,
-                NONE,
-                null,
-                callback
+                parent, // Xdp.Parent
+                NONE, // Request flags. Currently, the only value is NONE
+                null, // Cancellable, using none
+                callback // Callback for the petition
             );
         }
 
@@ -92,6 +95,7 @@ namespace XdpVala {
 
         [GtkCallback]
         private void on_inhibit_button_clicked () {
+            // https://valadoc.org/libportal/Xdp.Parent.html
             Xdp.Parent parent = Xdp.parent_new_gtk (get_native() as Gtk.Window);
             Xdp.InhibitFlags flags = LOGOUT;
 
@@ -116,11 +120,11 @@ namespace XdpVala {
                 flags |= IDLE;
 
             portal.session_inhibit.begin (
-                parent,
-                reason_entry.text,
-                flags,
-                null,
-                inhibit_callback
+                parent, // Xdp.Parent
+                reason_entry.text, // Reason to inhibit the session
+                flags, // Flags of the petition to inhibit LOGOUT, USER_SWITCH, SUSPEND and/or IDLE
+                null, // Cancellable, using none
+                inhibit_callback // Callback of the function in which we will receive the result of the petition
             );
         }
 
@@ -133,6 +137,7 @@ namespace XdpVala {
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
             try {
+                // We will receive a boolean that will indicate if our request was successful
                 monitor_active = portal.session_monitor_start.end (res);
             }
             catch (Error e) {
@@ -143,6 +148,7 @@ namespace XdpVala {
         private void inhibit_callback (GLib.Object? obj, GLib.AsyncResult res) {
             results_group.visible = true;
             try {
+                // We will receive the ID of our "inhibit" petition, which we can use later to uninhibit
                 inhibit_id = portal.session_inhibit.end (res);
                 id_label.label = inhibit_id.to_string ();
                 inhibit_active = true;
@@ -153,6 +159,7 @@ namespace XdpVala {
             }
         }
 
+        // This method will be called when the LoginSessionState changes and we can query a change
         private void on_session_updated (bool screensaver, Xdp.LoginSessionState state) {
             screensaver_label.label = screensaver.to_string ();
 
