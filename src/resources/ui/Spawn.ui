@@ -13,7 +13,7 @@
           <object class="AdwPreferencesGroup">
             <property name="title">Command</property>
             <child>
-              <object class="AdwEntryRow">
+              <object class="AdwEntryRow" id="cwd_entry">
                 <property name="title">Command to run</property>
               </object>
             </child>
@@ -36,7 +36,7 @@
             </child>
 
             <child>
-              <object class="XdpValaEntryList">
+              <object class="XdpValaEntryList" id="arg_list">
                 <property name="new-row-caption">Add new argument</property>
                 <property name="row-title">Argument</property>
               </object>

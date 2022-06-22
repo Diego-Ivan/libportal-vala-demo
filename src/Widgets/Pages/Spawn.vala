@@ -12,6 +12,16 @@ namespace XdpVala {
         private unowned Gtk.ListBox flags_list;
         [GtkChild]
         private unowned DoubleEntryList env_list;
+        [GtkChild]
+        private unowned Adw.EntryRow cwd_entry;
+        [GtkChild]
+        private unowned EntryList arg_list;
+        [GtkChild]
+        private unowned Adw.PreferencesGroup results_group;
+        [GtkChild]
+        private unowned Gtk.Label pid_label;
+        [GtkChild]
+        private unowned Gtk.Label status_label;
 
         private ListStore model = new ListStore (typeof(FlagObject));
 
@@ -31,18 +41,48 @@ namespace XdpVala {
             model.append (new FlagObject ("Watch"));
 
             flags_list.bind_model (model, widget_creation);
+            portal.spawn_exited.connect (on_spawn_exited);
         }
 
         [GtkCallback]
         private void on_spawn_button_clicked () {
-            string[] strings = env_list.retrieve_strings ();
-            foreach (var str in strings) {
-                message (str);
+            string[]? args = arg_list.retrieve_strings ();
+            string[]? env = env_list.retrieve_strings ();
+
+            if (args.length == 0 || env.length == 0) {
+                args = null;
+                env = null;
             }
-            get_spawn_flags ();
+
+            portal.spawn.begin (
+                cwd_entry.text, // Command to Run
+                args, // argv list to parse to the command
+                null, // fds for the process, using none
+                null, // array of integers to map to the fds, using none
+                env, // ENV variables for the program
+                get_spawn_flags (), // Flags for the Program: CLEARENV, LATEST, SANDBOX, NO_NETWORK, WATCH or NONE
+                null, // R/W paths to expose to the sandbox, using none
+                null, // RO paths to expose to the sandbox, using none
+                null, // Cancellable. Using none
+                callback // Callback of the function
+            );
         }
 
         public override void callback (GLib.Object? obj, GLib.AsyncResult res) {
+            int pid;
+            try {
+                results_group.visible = true;
+                pid = portal.spawn.end (res);
+                pid_label.label = pid.to_string ();
+                status_label.label = "Process Running";
+            }
+            catch (Error e) {
+                error (e.message);
+            }
+        }
+
+        private void on_spawn_exited (uint pid, uint exit_status) {
+            status_label.label = "Process with pid %u exited with status %u".printf (pid, exit_status);
         }
 
         private Xdp.SpawnFlags get_spawn_flags () {
