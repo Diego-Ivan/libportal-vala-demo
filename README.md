@@ -46,7 +46,7 @@ gtk4
 libadwaita-1
 libportal
 libportal-gtk4
-shumate-0.0
+shumate-1.0
 ```
 
 Build using the Meson Build System:
