@@ -24,7 +24,7 @@ This is a demo for the [Libportal](https://github.com/flatpak/libportal) written
 - [x] Screencast
 - [x] Screenshot
 - [x] Session (inhibit, monitor)
-- [ ] Spawn
+- [x] Spawn
 - [x] Trash File
 - [ ] Updates
 - [x] Wallpaper
