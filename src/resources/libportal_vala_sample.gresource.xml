@@ -14,6 +14,7 @@
     <file alias="Screencast.ui" preprocess="xml-stripblanks">ui/Screencast.ui</file>
     <file alias="Screenshot.ui" preprocess="xml-stripblanks">ui/Screenshot.ui</file>
     <file alias="Session.ui" preprocess="xml-stripblanks">ui/Session.ui</file>
+    <file alias="Spawn.ui" preprocess="xml-stripblanks">ui/Spawn.ui</file>
     <file alias="TrashFile.ui" preprocess="xml-stripblanks">ui/TrashFile.ui</file>
     <file alias="Wallpaper.ui" preprocess="xml-stripblanks">ui/Wallpaper.ui</file>
     <file alias="Welcome.ui" preprocess="xml-stripblanks">ui/Welcome.ui</file>
@@ -30,5 +31,6 @@
     <file preprocess="xml-stripblanks" alias="mail-symbolic.svg">icons/mail-symbolic.svg</file>
     <file preprocess="xml-stripblanks" alias="person2-symbolic.svg">icons/person2-symbolic.svg</file>
     <file preprocess="xml-stripblanks" alias="screen-privacy2-symbolic.svg">icons/screen-privacy2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="terminal-symbolic.svg">icons/terminal-symbolic.svg</file>
   </gresource>
 </gresources>

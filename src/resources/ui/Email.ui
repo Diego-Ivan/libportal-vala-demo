@@ -33,7 +33,7 @@
             <property name="title">Addresses</property>
             <property name="description">At least one is required</property>
             <child>
-              <object class="XdpValaAddressList" id="address_list"></object>
+              <object class="XdpValaEntryList" id="address_list"></object>
             </child>
           </object>
         </child>
@@ -42,7 +42,7 @@
           <object class="AdwPreferencesGroup" id="cc_group">
             <property name="title">CC</property>
             <child>
-              <object class="XdpValaAddressList" id="cc_list"></object>
+              <object class="XdpValaEntryList" id="cc_list"></object>
             </child>
           </object>
         </child>
@@ -51,7 +51,7 @@
           <object class="AdwPreferencesGroup" id="bcc_group">
             <property name="title">BCC</property>
             <child>
-              <object class="XdpValaAddressList" id="bcc_list"></object>
+              <object class="XdpValaEntryList" id="bcc_list"></object>
             </child>
           </object>
         </child>

@@ -34,6 +34,7 @@ namespace XdpVala {
 		        new Pages.Screencast (portal),
 		        new Pages.Screenshot (portal),
 		        new Pages.Session (portal),
+		        new Pages.Spawn (portal),
 		        new Pages.TrashFile (portal),
 		        new Pages.Wallpaper (portal),
 		    };

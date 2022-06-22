@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="XdpValaPagesSpawn" parent="XdpValaPage">
+    <property name="title">Spawn</property>
+    <property name="description">Run a process inside the sandbox</property>
+    <property name="icon-name">terminal-symbolic</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">12</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Command</property>
+            <child>
+              <object class="AdwEntryRow" id="cwd_entry">
+                <property name="title">Command to run</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label">argv</property>
+                <property name="xalign">0</property>
+                <style>
+                  <class name="heading"/>
+                </style>
+              </object>
+            </child>
+
+            <child>
+              <object class="XdpValaEntryList" id="arg_list">
+                <property name="new-row-caption">Add new argument</property>
+                <property name="row-title">Argument</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Environment Variables</property>
+            <child>
+              <object class="XdpValaDoubleEntryList" id="env_list">
+                <property name="start-placeholder">KEY</property>
+                <property name="end-placeholder">VALUE</property>
+                <property name="new-row-caption">Add Environment Variable</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Sandbox Spawn</property>
+            <property name="description">Parameters that influence the creation of the new sandbox</property>
+
+              <child>
+                <object class="GtkListBox" id="flags_list">
+                  <style>
+                    <class name="boxed-list"/>
+                  </style>
+                </object>
+              </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="results_group">
+            <property name="visible">false</property>
+            <property name="title">Result</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">PID</property>
+                <child type="suffix">
+                  <object class="GtkLabel" id="pid_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Exit Status</property>
+                <child>
+                  <object class="GtkLabel" id="status_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton" id="spawn_button">
+            <property name="halign">start</property>
+            <property name="label">Spawn Command</property>
+            <signal name="clicked" handler="on_spawn_button_clicked" swapped="no"/>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+</interface>
